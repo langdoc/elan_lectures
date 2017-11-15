@@ -2015,13 +2015,9 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul></li>
 <li>There are also functions read_tier() and read_timeslot()</li>
 </ul>
-<style type="text/css">
-
-</style>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(kableExtra)</div>
-<div class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(FRelan)</div>
-<div class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> <span class="st">'~/github/test-corpus/kpv_izva20140330-1-fragment.eaf'</span>, </div>
-<div class="sourceLine" id="cb3-4" data-line-number="4">          <span class="dt">linguistic_type =</span> <span class="st">'wordT'</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(FRelan)</div>
+<div class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> <span class="st">'../testcorpus/kpv_izva20140330-1-fragment.eaf'</span>, </div>
+<div class="sourceLine" id="cb3-3" data-line-number="3">          <span class="dt">linguistic_type =</span> <span class="st">'wordT'</span>)</div></code></pre>
 <pre><code>## # A tibble: 95 x 8
 ##    content annot_id ref_id participant         tier_id  type time_slot_1
 ##      &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;
@@ -2042,7 +2038,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li>The output we get is directly from the ELAN XML file</li>
 <li>Let’s look into some other types of tier</li>
 </ul>
-<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> <span class="st">'~/github/test-corpus/kpv_izva20140330-1-fragment.eaf'</span>, </div>
+<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> <span class="st">'../testcorpus/kpv_izva20140330-1-fragment.eaf'</span>, </div>
 <div class="sourceLine" id="cb5-2" data-line-number="2">          <span class="dt">linguistic_type =</span> <span class="st">'refT'</span>)</div></code></pre>
 <pre><code>## # A tibble: 5 x 8
 ##                    content annot_id ref_id participant        tier_id
@@ -2067,7 +2063,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul>
 </section><section id="section-10" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">path_to_file =<span class="st"> '~/github/test-corpus/kpv_udo20120330SazinaJS-encounter.eaf'</span></div>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">path_to_file =<span class="st"> '../testcorpus/kpv_udo20120330SazinaJS-encounter.eaf'</span></div>
 <div class="sourceLine" id="cb7-2" data-line-number="2"></div>
 <div class="sourceLine" id="cb7-3" data-line-number="3">ref &lt;-<span class="st"> </span>FRelan<span class="op">::</span><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> path_to_file, <span class="dt">linguistic_type =</span> <span class="st">&quot;refT&quot;</span>) <span class="op">%&gt;%</span></div>
 <div class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(content, annot_id, participant, time_slot_<span class="dv">1</span>, time_slot_<span class="dv">2</span>) <span class="op">%&gt;%</span></div>
@@ -2078,7 +2074,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <div class="sourceLine" id="cb7-9" data-line-number="9"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(content, annot_id, ref_id, participant) <span class="op">%&gt;%</span></div>
 <div class="sourceLine" id="cb7-10" data-line-number="10"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">orth =</span> content) <span class="op">%&gt;%</span></div>
 <div class="sourceLine" id="cb7-11" data-line-number="11"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">orth_id =</span> annot_id) <span class="co"># %&gt;%</span></div>
-<div class="sourceLine" id="cb7-12" data-line-number="12">  <span class="co"># dplyr::rename(ref_id = ref_id)</span></div>
+<div class="sourceLine" id="cb7-12" data-line-number="12">  <span class="co"># dplyr::rename(ref_id = ref_id) # This is there just as a note</span></div>
 <div class="sourceLine" id="cb7-13" data-line-number="13"></div>
 <div class="sourceLine" id="cb7-14" data-line-number="14">token &lt;-<span class="st"> </span>FRelan<span class="op">::</span><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> path_to_file, <span class="dt">linguistic_type =</span> <span class="st">&quot;wordT&quot;</span>) <span class="op">%&gt;%</span></div>
 <div class="sourceLine" id="cb7-15" data-line-number="15"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(content, annot_id, ref_id, participant) <span class="op">%&gt;%</span></div>
@@ -2133,7 +2129,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
   all the code from above...
 }
 
-read_custom_eaf(path_to_file = 'path/to/my_file.eaf')
+FRelan::read_custom_eaf(path_to_file = 'path/to/my_file.eaf')
 </code></pre>
 </section><section id="what-can-go-wrong" class="slide level2">
 <h2>What can go wrong?</h2>
@@ -2152,17 +2148,17 @@ read_custom_eaf(path_to_file = 'path/to/my_file.eaf')
 <li>Idea is always same: take multiple items of something and do something for every unit</li>
 <li>All paths to the files in corpus is a good starting point</li>
 </ul>
-<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><div class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">'~/github/test-corpus'</span>, <span class="dt">pattern =</span> <span class="st">'.eaf$'</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</div></code></pre>
-<pre><code>## [1] &quot;/Users/niko/github/test-corpus/kpv_izva20140330-1-fragment.eaf&quot;      
-## [2] &quot;/Users/niko/github/test-corpus/kpv_izva20140404IgusevJA-fragment.eaf&quot;
-## [3] &quot;/Users/niko/github/test-corpus/kpv_udo20120330SazinaJS-encounter.eaf&quot;</code></pre>
+<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><div class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">'../testcorpus'</span>, <span class="dt">pattern =</span> <span class="st">'.eaf$'</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</div></code></pre>
+<pre><code>## [1] &quot;../testcorpus/kpv_izva20140330-1-fragment.eaf&quot;      
+## [2] &quot;../testcorpus/kpv_izva20140404IgusevJA-fragment.eaf&quot;
+## [3] &quot;../testcorpus/kpv_udo20120330SazinaJS-encounter.eaf&quot;</code></pre>
 <p>Or:</p>
-<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><div class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">'~/github/test-corpus'</span>, <span class="dt">pattern =</span> <span class="st">'.+izva.+eaf$'</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</div></code></pre>
-<pre><code>## [1] &quot;/Users/niko/github/test-corpus/kpv_izva20140330-1-fragment.eaf&quot;      
-## [2] &quot;/Users/niko/github/test-corpus/kpv_izva20140404IgusevJA-fragment.eaf&quot;</code></pre>
+<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><div class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">'../testcorpus'</span>, <span class="dt">pattern =</span> <span class="st">'.+izva.+eaf$'</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</div></code></pre>
+<pre><code>## [1] &quot;../testcorpus/kpv_izva20140330-1-fragment.eaf&quot;      
+## [2] &quot;../testcorpus/kpv_izva20140404IgusevJA-fragment.eaf&quot;</code></pre>
 </section><section id="section-13" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">elan_files &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">'~/github/test-corpus'</span>, <span class="dt">pattern =</span> <span class="st">'.eaf$'</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</div>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">elan_files &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">'../testcorpus'</span>, <span class="dt">pattern =</span> <span class="st">'.eaf$'</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</div>
 <div class="sourceLine" id="cb16-2" data-line-number="2">elan_files <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(read_custom_eaf)</div></code></pre>
 <pre><code>## [[1]]
 ## # A tibble: 95 x 9
@@ -2220,7 +2216,7 @@ read_custom_eaf(path_to_file = 'path/to/my_file.eaf')
 </section><section id="section-14" class="slide level2">
 <h2></h2>
 <pre class="sourceCode r" id="cb18"><code class="sourceCode r"><div class="sourceLine" id="cb18-1" data-line-number="1">elan_corpus &lt;-<span class="st"> </span>elan_files <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(read_custom_eaf) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>()</div>
-<div class="sourceLine" id="cb18-2" data-line-number="2">meta &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="st">'~/github/test-corpus/'</span>, <span class="dt">pattern =</span> <span class="st">'cmdi$'</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></div>
+<div class="sourceLine" id="cb18-2" data-line-number="2">meta &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="st">'../testcorpus/'</span>, <span class="dt">pattern =</span> <span class="st">'cmdi$'</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></div>
 <div class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">  </span><span class="kw">map</span>(read_cmdi) <span class="op">%&gt;%</span><span class="st"> </span></div>
 <div class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">  </span><span class="kw">bind_rows</span>()</div>
 <div class="sourceLine" id="cb18-5" data-line-number="5"></div>
@@ -2229,11 +2225,12 @@ read_custom_eaf(path_to_file = 'path/to/my_file.eaf')
 <h2></h2>
 <ul>
 <li>I can recommend trying View function in RStudio</li>
+<li>Function is more portable than script!</li>
 </ul>
 <pre class="sourceCode r" id="cb19"><code class="sourceCode r"><div class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">write_rds</span>(test_corpus, <span class="st">'test_corpus.rds'</span>)</div>
 <div class="sourceLine" id="cb19-2" data-line-number="2">test_corpus &lt;-<span class="st"> </span><span class="kw">read_rds</span>(<span class="st">'test_corpus.rds'</span>)</div>
 <div class="sourceLine" id="cb19-3" data-line-number="3"><span class="kw">source</span>(<span class="st">'parse_corpus.R'</span>)</div>
-<div class="sourceLine" id="cb19-4" data-line-number="4">test_corpus &lt;-<span class="st"> </span><span class="kw">monster_function_that_does_everything</span>()</div>
+<div class="sourceLine" id="cb19-4" data-line-number="4">test_corpus &lt;-<span class="st"> </span><span class="kw">monster_function_that_does_everything</span>(<span class="dt">folder_to_go =</span> <span class="st">&quot;~/Desktop/corpus&quot;</span>)</div>
 <div class="sourceLine" id="cb19-5" data-line-number="5">test_corpus <span class="op">%&gt;%</span><span class="st"> </span>View</div></code></pre>
 </section><section id="section-16" class="slide level2">
 <h2></h2>
