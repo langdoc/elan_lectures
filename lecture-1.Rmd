@@ -70,6 +70,8 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.c
 
 # What is ELAN?
 
+## ELAN
+
 * Annotation tool developed in Nijmegen
 * [Open source](https://tla.mpi.nl/tools/tla-tools/elan/elan-old-versions) Java application
 * Used widely in language documentation projects and elsewhere
@@ -122,7 +124,7 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.c
 
 ## ELAN corpora?
 
-* Some people refuse to call their transcribed and annotated materials corpus
+* Some people refuse to call their language documentation materials corpus
 * The fact that data is referred to doesn't mean that corpus contains those annotations
     - The reference means usually **that this example exists**
 * Others must have already finished this conversation

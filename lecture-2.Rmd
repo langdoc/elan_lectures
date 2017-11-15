@@ -275,10 +275,13 @@ frameWidget(map)
 
 kpv <- read_rds("kpv_whole.rds")
 
+
+
 kpv <- kpv %>% 
   distinct(session_name, filename, lon_rec, lat_rec, lon_birth, lat_birth, place_rec, token_count, title_eng) %>%
   rename(lon_session = lon_rec, lat_session = lat_rec, session_location = place_rec) 
 
+kpv <- kpv %>% distinct(session_name, .keep_all = TRUE)
 ```
 
 
@@ -292,8 +295,8 @@ kpv_map <- leaflet(data = kpv %>% filter(! is.na(lon_session))) %>%
                            {title_eng}</br>
                            Recording place: {session_location}</br>
                            Number of tokens: {token_count}</br>
-                           <a>link</a>'),
-             clusterOptions = markerClusterOptions(freezeAtZoom = 5))
+                           <a href="">Link to archive</a>'),
+             clusterOptions = markerClusterOptions())
 
 frameWidget(kpv_map)
 ```
@@ -309,7 +312,7 @@ kpv_birth_map <- leaflet(data = kpv %>% filter(! is.na(lon_birth))) %>%
                            {title_eng}</br>
                            Recording place: {session_location}</br>
                            Number of tokens: {token_count}</br>'),
-             clusterOptions = markerClusterOptions(freezeAtZoom = 5))
+             clusterOptions = markerClusterOptions())
 
 frameWidget(kpv_birth_map)
 ```
