@@ -5,7 +5,15 @@ This is a set of course materials Niko Partanen is using while teaching the this
 The lectures assume that you have done something like:
 
     git clone https://github.com/langdoc/elan_lectures
-    cd elan_lectures
     git clone https://github.com/langdoc/testcorpus
+    git clone https://github.com/langdoc/praat-stuff
 
-So the test corpus should be directly under the lectures.
+So when you are in the main directory what you see is:
+
+    elan_lectures
+    testcorpus
+    praat-stuff
+
+It doesn't matter if there are other folders around.
+
+CC-BY Niko Partanen 2017
