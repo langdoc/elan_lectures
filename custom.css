@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Coda+Caption:800');
+
+.reveal section img
+{
+  border:0px none white;
+  box-shadow:0 0 0px rgba(0, 0, 0, 1) !important;
+}
+
+.reveal h1 {
+	font-family: Montserrat;
+	font-weight: bolder;
+}
+
+.reveal h2 {
+	font-family: Montserrat;
+	font-weight: normal;
+}
+
+.reveal h3 {
+	font-family: Montserrat;
+	font-weight: lighter;
+	text-transform: none;
+}
+
+.reveal .withbackground h1, .reveal .withbackground h2, .reveal .withbackground h3 {
+  text-shadow: 7px 7px 20px black, -7px -7px 20px black, 7px -7px 20px black, -7px 7px 20px black;
+  color: white;
+}
+
+.reveal .noborder {
+  border: none;
+  border-collapse: collapse;
+}
+
+.reveal li {
+  font-size: 1em;
+}
+
+pre.sourceCode {
+  width:  1000px;               /* Change the width of the chunk */
+  font-size: 0.4em;            /* Change the font-size */
+}
+
+.customOutput {
+  width:  1000px;               /* Change the width of the chunk */
+  font-size: 0.3em;            /* Change the font-size */
+}
+
+pre {
+  /*background-color: salmon;*/
+  font-family: "Times New Roman", Times, serif;
+}
+
+/*pre.bad-code { background-color: salmon;}*/
