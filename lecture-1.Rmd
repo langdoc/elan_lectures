@@ -4,7 +4,7 @@ output:
     theme: white
     transition: none
     css: custom.css
-    self_contained: no
+    self_contained: true
     center: true
 ---
 
@@ -16,8 +16,6 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.c
 ### Thought on how these go together
 
 ### Niko Partanen
-
-<img src="images/Rlogo" alt="" width="100px" />
 
 
 # Introduction
@@ -44,23 +42,26 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.c
 - I genuinely like programming
 - I believe formulating our research questions programmatically is the way to go
 
-## {data-background-image="https://i.imgur.com/hH0xro2.png" data-background-size="70%"}
-
 ---------------------------------------------------------------------
 
 ## What is this course?
 
+- One way to discuss my work with audience
 - Lots of R courses dive directly into statistical analysis
 - In this workshop we stay in more shallow waters
     - We don't go far at all
     - But I hope this opens new directions
+- Almost everything I work with is somewhere online!
+    - GitHub issues as a cooperation channel
+
+## {data-background-image="https://i.imgur.com/hH0xro2.png" data-background-size="70%"}
 
 ---------------------------------------------------------------------
 
 ## We will learn
 
 - Parsing ELAN files and metadata into R
-    - Adapting to your needs
+    - Adapting this to your needs
 - Manipulating that data in R
 - Building some interactive workflows around R, ELAN and Praat
 - Use Python to manipulate tier structures and explore Pympi

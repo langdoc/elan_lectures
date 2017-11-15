@@ -5,7 +5,7 @@ output:
     transition: none
     incremental: false
     css: custom.css
-    self_contained: no
+    self_contained: true
     center: true
     md_extensions: +fenced_code_attributes
 editor_options: 
@@ -21,23 +21,23 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.c
 
 ### Niko Partanen
 
-<img src="images/Rlogo" alt="" width="100px" />
-
-
 # Test corpus
 
 ## What is there?
 
 - Tiny collection of Komi recordings
-- Can be downloaded here
+- Can be downloaded [here](https://github.com/langdoc/testcorpus)
+    - `git clone https://github.com/langdoc/testcorpus`
 - Fragmentary recordings, but quite realistic examples
 - Metadata in CMDI files
+
+## {data-background-image="https://imgur.com/Qz7hWHV.png" size="80%"}
 
 ---------------------------------------------------------------------
 
 ## Structure
 
-- Follows the Freiburg standards in tier structure and naming
+- Follows the [Freiburg standards](https://github.com/langdoc/FRechdoc/wiki) in tier structure and naming
     - Matches closely Kola Saami and Pite Saami corpora
 
 ```
@@ -56,7 +56,7 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.c
 
 ## FRelan
 
-- An R package that contains many functions usable with Freiburg standard
+- An [R package](https://github.com/langdoc/FRelan) that contains many functions usable with Freiburg standard
 - Some parts probably adaptable elsewhere
 
 ```
@@ -64,8 +64,8 @@ library(devtools)
 install_github('langdoc/FRelan')
 ```
 
-- Later we will focus into `read_tier()` function
-- After that individual parsing method can be baked into a new function
+- Later we will focus into `read_tier()` and `read_cmdi()` functions
+- After that individual parsing method can be combined into a new function
 
 ---------------------------------------------------------------------
 
@@ -76,7 +76,7 @@ install_github('langdoc/FRelan')
 library(tidyverse)
 library(xml2)
 
-corpus <- dir('../adv_elan_draft/corpus', pattern = 'eaf$', full.names = TRUE) %>%
+corpus <- dir('../testcorpus', pattern = 'eaf$', full.names = TRUE) %>%
   map(FRelan::read_eaf) %>%
   bind_rows() %>%
   select(token, participant, session_name, time_start, time_end, everything())
@@ -199,7 +199,7 @@ read_cmdi <- function(cmdi_file){ # this defines the function
 In this point we can apply the function we just wrote into all cmdi files we have.
 
 ```{r}
-metadata <- dir('../adv_elan_draft/corpus', 'cmdi$', full.names = TRUE) %>%
+metadata <- dir('../testcorpus', 'cmdi$', full.names = TRUE) %>%
   map(read_cmdi) %>% bind_rows()
 metadata
 ```
@@ -211,7 +211,20 @@ corpus_full <- left_join(corpus, metadata)
 corpus_full
 ```
 
----------------------------------------------------------------------
+##
+
+- Let's observe what we have in R for a second!
+- Let's change something, i.e. in metadata
+
+# Exploring the corpus
+
+##
+
+- What can we do with the values we have?
+- Is something missing or problematic?
+- Is it always clear what we "have"?
+
+##
 
 ```{r geocoding}
 
@@ -254,13 +267,13 @@ frameWidget(map)
 
 ```{r kpv_prep, echo = FALSE, warning=FALSE, message=FALSE}
 
-kpv_eaf <- read_rds('~/github/adv_elan_draft/corpus.rds')
-source('/Volumes/langdoc/langs/kpv/FM_meta.R')
+# kpv_eaf <- read_rds('~/github/adv_elan_draft/corpus.rds')
+# source('/Volumes/langdoc/langs/kpv/FM_meta.R')
+# kpv <- left_join(kpv_eaf, meta) %>% add_count(session_name) %>%
+#  rename(token_count = n)
+# write_rds(kpv, "kpv_whole.rds")
 
-kpv <- left_join(kpv_eaf, meta) %>% add_count(session_name) %>%
-  rename(token_count = n)
-
-# View(kpv)
+kpv <- read_rds("kpv_whole.rds")
 
 kpv <- kpv %>% 
   distinct(session_name, filename, lon_rec, lat_rec, lon_birth, lat_birth, place_rec, token_count, title_eng) %>%
@@ -278,7 +291,8 @@ kpv_map <- leaflet(data = kpv %>% filter(! is.na(lon_session))) %>%
              popup = ~glue('{session_name}</br>
                            {title_eng}</br>
                            Recording place: {session_location}</br>
-                           Number of tokens: {token_count}</br>'),
+                           Number of tokens: {token_count}</br>
+                           <a>link</a>'),
              clusterOptions = markerClusterOptions(freezeAtZoom = 5))
 
 frameWidget(kpv_map)

@@ -1,0 +1,102 @@
+---
+output: 
+  revealjs::revealjs_presentation:
+    theme: white
+    transition: none
+    incremental: false
+    css: custom.css
+    self_contained: true
+    center: true
+    md_extensions: +fenced_code_attributes
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.cap = "")
+```
+
+# File manipulation
+
+## Typical tasks
+
+- Updating reference tiers
+- Updating tokenization
+- Adding new annotations
+- Removing unnecessary tiers
+- Changing linguistic types
+
+## Lots of this can be done anywhere
+
+- This is just rather simple XML manipulation
+- Let's say we rename a tier:
+
+```{r}
+library(tidyverse)
+library(xml2)
+
+rename_tier <- function(filename, current_name, new_name, suffix){
+    read_xml(filename) %>%
+    xml_find_all(glue("//TIER[@TIER_ID='{current_name}']")) %>%
+    walk(~ xml_set_attr(.x, 'LINGUISTIC_TYPE_ID', new_name)) %>%
+    xml_find_first('/') %>%
+    write_xml(str_replace(filename, '.eaf', glue('{suffix}.eaf')))
+}
+```
+
+##
+
+- Or we rename a type:
+
+```{r}
+rename_type <- function(filename, current_name, new_name, suffix){
+    read_xml(filename) %>%
+    xml_find_all(glue("//TIER[@LINGUISTIC_TYPE_REF='{current_name}']")) %>%
+    walk(~ xml_set_attr(.x, 'LINGUISTIC_TYPE_REF', new_name)) %>%
+    xml_find_all("../LINGUISTIC_TYPE[@LINGUISTIC_TYPE_ID='{current_name}']") %>% 
+    walk(~ xml_set_attr(.x, 'LINGUISTIC_TYPE_ID', new_name)) %>%
+    xml_find_first('/') %>%
+    write_xml(str_replace(filename, '.eaf', glue('{suffix}.eaf')))
+}
+
+```
+
+- Already one extra thing to remember!
+- However, things can be way more complicated!
+
+## pympi
+
+- Python package maintained by Mart Lubbers
+- Has quite thorough [documentation](http://dopefishh.github.io/pympi/Elan.html)
+- We will explore some of the basic functionalities next
+
+## {data-background-image="https://imgur.com/mbVZFh1.png"}
+
+## To sum up
+
+- Very useful, well done package
+- I would have bit different philosophy to deal with time codes
+- But there are probably reasons I don't know!
+- I have opened GitHub issue for the most urgent question (which I think relates to others)
+
+## reticulate
+
+```{r}
+library(reticulate)
+
+pympi <- import('pympi')
+
+elan_file <- pympi$Eaf(file_path = '/Users/niko/github/testcorpus/kpv_udo20120330SazinaJS-encounter.eaf')
+
+elan_file$get_tier_names()
+
+elan_file$get_annotation_data_for_tier(id_tier = 'orth@NTP-M-1986')
+
+
+```
+
+## Up next
+
+### Discussion?
+### Working with your files?

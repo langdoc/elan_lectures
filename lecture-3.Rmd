@@ -4,7 +4,7 @@ output:
     theme: white
     transition: none
     css: custom.css
-    self_contained: no
+    self_contained: true
     center: true
     md_extensions: +fenced_code_attributes
 editor_options: 
@@ -101,15 +101,10 @@ read_xml('../adv_elan_draft/notebooks/test.eaf') %>% xml_structure()
     - Although customizable
 - There are also functions read_tier() and read_timeslot()
 
-```{css echo=FALSE}
-
-```
-
-
 ```{r}
-library(kableExtra)
+
 library(FRelan)
-read_tier(eaf_file = '~/github/test-corpus/kpv_izva20140330-1-fragment.eaf', 
+read_tier(eaf_file = '../testcorpus/kpv_izva20140330-1-fragment.eaf', 
           linguistic_type = 'wordT')
 
 ```
@@ -121,7 +116,7 @@ read_tier(eaf_file = '~/github/test-corpus/kpv_izva20140330-1-fragment.eaf',
 - Let's look into some other types of tier
 
 ```{r}
-read_tier(eaf_file = '~/github/test-corpus/kpv_izva20140330-1-fragment.eaf', 
+read_tier(eaf_file = '../testcorpus/kpv_izva20140330-1-fragment.eaf', 
           linguistic_type = 'refT')
 ```
 
@@ -137,7 +132,7 @@ read_tier(eaf_file = '~/github/test-corpus/kpv_izva20140330-1-fragment.eaf',
 
 ```{r}
 
-path_to_file = '~/github/test-corpus/kpv_udo20120330SazinaJS-encounter.eaf'
+path_to_file = '../testcorpus/kpv_udo20120330SazinaJS-encounter.eaf'
 
 ref <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "refT") %>%
   dplyr::select(content, annot_id, participant, time_slot_1, time_slot_2) %>%
@@ -148,7 +143,7 @@ orth <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "orthT") %>
   dplyr::select(content, annot_id, ref_id, participant) %>%
   dplyr::rename(orth = content) %>%
   dplyr::rename(orth_id = annot_id) # %>%
-  # dplyr::rename(ref_id = ref_id)
+  # dplyr::rename(ref_id = ref_id) # This is there just as a note
 
 token <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "wordT") %>%
   dplyr::select(content, annot_id, ref_id, participant) %>%
@@ -199,7 +194,7 @@ read_custom_eaf <- function(path_to_file){
   all the code from above...
 }
 
-read_custom_eaf(path_to_file = 'path/to/my_file.eaf')
+FRelan::read_custom_eaf(path_to_file = 'path/to/my_file.eaf')
 
 ```
 
@@ -271,19 +266,19 @@ read_custom_eaf <- function(path_to_file){
 
 
 ```{r}
-dir(path = '~/github/test-corpus', pattern = '.eaf$', full.names = TRUE)
+dir(path = '../testcorpus', pattern = '.eaf$', full.names = TRUE)
 ```
 
 Or:
 
 ```{r}
-dir(path = '~/github/test-corpus', pattern = '.+izva.+eaf$', full.names = TRUE)
+dir(path = '../testcorpus', pattern = '.+izva.+eaf$', full.names = TRUE)
 ```
 
 ##
 
 ```{r}
-elan_files <- dir(path = '~/github/test-corpus', pattern = '.eaf$', full.names = TRUE)
+elan_files <- dir(path = '../testcorpus', pattern = '.eaf$', full.names = TRUE)
 elan_files %>% map(read_custom_eaf)
 ```
 
@@ -315,7 +310,7 @@ read_cmdi <- function(cmdi_file){ # this defines the function
 
 ```{r}
 elan_corpus <- elan_files %>% map(read_custom_eaf) %>% bind_rows()
-meta <- dir('~/github/test-corpus/', pattern = 'cmdi$', full.names = TRUE) %>% 
+meta <- dir('../testcorpus/', pattern = 'cmdi$', full.names = TRUE) %>% 
   map(read_cmdi) %>% 
   bind_rows()
 
@@ -325,12 +320,13 @@ test_corpus <- left_join(elan_corpus, meta) %>% left_join(read_csv('coordinates.
 ##
 
 - I can recommend trying View function in RStudio
+- Function is more portable than script!
 
 ```{r, eval=FALSE}
 write_rds(test_corpus, 'test_corpus.rds')
 test_corpus <- read_rds('test_corpus.rds')
 source('parse_corpus.R')
-test_corpus <- monster_function_that_does_everything()
+test_corpus <- monster_function_that_does_everything(folder_to_go = "~/Desktop/corpus")
 test_corpus %>% View
 ```
 

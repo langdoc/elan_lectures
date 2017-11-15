@@ -4,7 +4,7 @@ output:
     theme: white
     transition: none
     css: custom.css
-    self_contained: no
+    self_contained: true
     center: true
     md_extensions: +fenced_code_attributes
 editor_options: 
@@ -94,7 +94,7 @@ read_custom_eaf <- function(path_to_file){
 - It's often good idea to do all modification and variable creation in one spot…
 
 ```{r}
-eafs <- dir(path = '~/github/test-corpus/', pattern = 'eaf$', full.names = TRUE)
+eafs <- dir(path = '../testcorpus/', pattern = 'eaf$', full.names = TRUE)
 
 corpus <- eafs %>% map(read_custom_eaf) %>% bind_rows()
 
@@ -128,9 +128,11 @@ corpus %>% distinct(audio_file) %>%
   select(BitsPerSample, Duration, FileType, NumChannels, everything())
 ```
 
-- Too many channels! The web service will crash if it sees this!
+- Actually now we have right amount of channels! 
 
 ##
+
+- In case you have too many channels…
 
 ```{r, eval=FALSE}
 library(glue)
@@ -139,10 +141,11 @@ corpus %>%
   distinct(audio_file) %>% 
   pull(audio_file) %>% 
   walk(~ {
-    seewave::sox(glue("{.x} -c 1 {str_replace(.x, 'wav$', '-mono.wav')}"))
+    seewave::sox(glue("{.x} -c 1 {str_replace(.x, '.wav$', '-mono.wav')}"))
     })
 ```
 
+- `sox file.wav -c 1 file-mono.wav`
 
 ##
 
@@ -152,11 +155,11 @@ corpus %>%
 ```{r}
 cut_elan_ref <- function(audio_file, reference_id, start, duration){
   
-  if (dir.exists('~/github/test-corpus/reference_clips') == FALSE) {
-    dir.create('~/github/test-corpus/reference_clips')
+  if (dir.exists('../testcorpus/reference_clips') == FALSE) {
+    dir.create('../testcorpus/reference_clips')
   }
 
-  seewave::sox(command = glue("{str_replace(audio_file, 'wav$', '-mono.wav')} ~/github/test-corpus/reference_clips/{reference_id}.wav trim {start / 1000} {duration / 1000}"))
+  seewave::sox(command = glue("{audio_file} ../testcorpus/reference_clips/{reference_id}.wav trim {start / 1000} {duration / 1000}"))
   
 }
 ```
@@ -170,7 +173,7 @@ cut_elan_ref <- function(audio_file, reference_id, start, duration){
 corpus %>% distinct(audio_file, ref, time_start, time_duration, orth_trimmed) %>%
   split(.$ref) %>%
   walk(., ~ cut_elan_ref(.x$audio_file, .x$ref, .x$time_start, .x$time_duration)) %>%
-  walk(., ~ write_lines(.x$orth_trimmed[1], path = glue::glue('~/github/test-corpus/reference_clips/', .$ref[1], '.txt')))
+  walk(., ~ write_lines(.x$orth_trimmed[1], path = glue::glue('../testcorpus/reference_clips/', .$ref[1], '.txt')))
 ```
 
 ## {data-background-image="https://i.imgur.com/XC7Xo3m.png" background-image-size="65%"}
@@ -180,14 +183,14 @@ corpus %>% distinct(audio_file, ref, time_start, time_duration, orth_trimmed) %>
 ```{r, eval=FALSE}
 
 library(emuR)
-convert_txtCollection(dbName = 'test-corpus', 
-                            sourceDir = '~/github/test-corpus/reference_clips', 
+convert_txtCollection(dbName = 'testcorpus', 
+                            sourceDir = '../testcorpus/reference_clips', 
                             targetDir = '.', 
                             txtExtension = '.txt', 
                             mediaFileExtension = 'wav', 
                             attributeDefinitionName = 'orth')
 
-dbHandle = load_emuDB('test-corpus_emuDB', verbose = F)
+dbHandle = load_emuDB('testcorpus_emuDB', verbose = F)
 ```
 
 ##
@@ -202,7 +205,7 @@ runBASwebservice_g2pForPronunciation(handle = dbHandle,
                   orthoAttributeDefinitionName = 'ORT',
                   language = 'und', 
                   canoAttributeDefinitionName = 'KAN', 
-                  params = list(embed = 'maus', imap=RCurl::fileUpload("~/github/test-corpus/kpv-sampa.txt")), 
+                  params = list(embed = 'maus', imap=RCurl::fileUpload("../testcorpus/kpv-sampa.txt")), 
                   resume = FALSE, 
                   verbose = TRUE)
 
@@ -216,7 +219,7 @@ runBASwebservice_maus(handle = dbHandle,
                       resume = FALSE,
                       verbose = TRUE)
 
-export_TextGridCollection(dbHandle, targetDir = '~/github/test-corpus/praat', attributeDefinitionNames = c('ORT', 'KAN', 'MAUS'))
+export_TextGridCollection(dbHandle, targetDir = '../testcorpus/praat_freiburg', attributeDefinitionNames = c('ORT', 'KAN', 'MAUS'))
 ```
 
 ## {data-background-image="https://i.imgur.com/C7HfnXx.png" background-image-size="65%"}
@@ -230,6 +233,10 @@ export_TextGridCollection(dbHandle, targetDir = '~/github/test-corpus/praat', at
 ### "should had I checked all transcriptions once more before I did this?"
 
 ## {data-background-image="https://i.imgur.com/hxdO7Oy.png" background-image-size="60%"}
+
+## Questions?
+
+### Up next: Integrating tools, some nice plots
 
 # Integrating tools
 
@@ -246,15 +253,165 @@ export_TextGridCollection(dbHandle, targetDir = '~/github/test-corpus/praat', at
 
 ## PraatScript
 
-- A scripting language that allows using Praat functionalities
+- A scripting language that allows using Praat without touching Praat
+- A very good [tutorial here](http://praatscripting.lingphon.net/)
 - Works within Praat, and outside Praat
 - Somewhat popular: internet is full of examples
+    - Mietta Lennes' [collection](https://lennes.github.io/spect/) great
 - Not entirely easy or intuitive, but not that bad
     - Follows a lot what happens in Praat GUI
 
+## We can combine following facts
+
+- Praat can be opened from command line
+- PraatScript can be run from command line
+- We can save the results into a textfile
+- We can read a textfile into R
+
 ##
 
-```{r}
+- In case you are curious:
+
+    git clone http://github.com/langdoc/praat-stuff
+
+- What follows is somewhat complicated interaction of Praat, shell scripts and R
+
+## What those scripts do
+
+- For vowels, we get the formants
+- For sibilants, we get the centre of gravity
+
+## Why we do this?
+
+- Helps to locate vowel segments with mistakes
+- Is interesting!
+- At least with Komi there are several things to check
+    - Does cog of unvoiced sibilants reming that of Russian?
+    - How do dialectal extra vowels influence the vowel system as the whole?
+    - etc.
+
+##
+
+### If you can look it up in Praat,
+### you can extract it with PraatScript
+
+##
+
+```{r, echo=FALSE}
+
+library(glue)
+
+main_folder <- '..'
+formant_file_path <- glue('{main_folder}/testcorpus/praat/formants.txt')
+
+read_formants <- function(formant_file){
+  suppressWarnings(read_tsv(formant_file,
+                            skip = 1,
+                            col_names = c('time', 'type', 'filename', 'token', 'phoneme', 'f1', 'f2', 'f3', 'missing1', 'missing2', 'missing3'))) %>%
+    filter(! is.na(token)) %>%
+    select(-missing1, -missing2, -missing3) %>%
+    select(phoneme, token, type, time, f1, f2, f3, filename) %>%
+    filter(! phoneme == 'Avg') %>%
+    mutate(id = rep(1:(n()/4), each=4)) %>%
+    # gather(variable, value, -(phoneme:token))
+    gather(var, val, time:f3) %>%
+    #  distinct(id, var, val) %>%
+    unite(var2, type, var) %>%
+    spread(var2, val) %>%
+    arrange(id) %>%
+    mutate(before = lag(phoneme)) %>%
+    mutate(after = lead(phoneme)) %>%
+    filter(phoneme %in% c('a', 'i', 'e', 'u', 'e~', '1', 'o')) %>%
+    select(before, phoneme, after, everything(), filename) %>%
+    mutate(f1 = as.double(midpoint_f1),
+           f2 = as.double(midpoint_f2),
+           filename = stringr::str_replace(filename, '.+/', '')) %>%
+    mutate(filename = stringr::str_replace(filename, '.wav', '')) %>%
+    mutate(duration = as.double(end_time) - as.double(start_time))
+}
+
+vowels <- read_formants(formant_file = formant_file_path)
+vowels <- vowels %>% filter(f1 < 1300)
+
+library(geofacet)
+
+mygrid <- data.frame(
+  code = c("i", "e", "ɨ", "ə", "a", "o", "u"),
+  name = c("i", "e", "ɨ", "ə", "a", "o", "u"),
+  row = c(1, 2, 1, 2, 3, 2, 1),
+  col = c(1, 1, 2, 2, 2, 3, 3),
+  stringsAsFactors = FALSE
+)
+#geofacet::grid_preview(mygrid)
+
+vowels_bg <- vowels %>% select(-phoneme)
+
+vowels <- vowels %>% mutate(phoneme = str_replace_all(phoneme, c("1" = "ɨ", "[e][~]" = "ə")))
+
+ggplot(data = vowels,
+                    aes(x=f2, y=f1)) +
+  geom_point(data = vowels_bg, size = .5, color = "grey", alpha = .5) +
+  geom_point(size = .8) +
+  scale_x_reverse(name="F2 (Hz)")+scale_y_reverse(name="F1 (Hz)") +
+  stat_ellipse() +
+  theme_bw() +
+  guides(fill = FALSE) +
+  scale_color_brewer(palette="Accent") +
+  facet_geo(~ phoneme, grid = mygrid)
+
 
 ```
 
+## {data-background-image="https://cloud.githubusercontent.com/assets/1275592/26282369/611ab89e-3dc5-11e7-86eb-65685cc2948b.png"}
+
+## Nice, but what are those points?
+
+- Try:
+
+```
+install.packages("shiny")
+install.packages("shinydashboard")
+install.packages("tidyverse")
+install.packages("ggplot2")
+install.packages("tuneR")
+install.packages("seewave")
+install.packages("forcats")
+runGitHub("phoneme-viewer", "langdoc")
+```
+
+## Also the cat pictures make a point!
+
+## Where do the cat pictures come from?
+
+## This is the only part that works on **everyones** laptop!
+
+##
+
+```
+meow::meow
+function () 
+{
+    url <- paste0("http://thecatapi.com/api/images/get?format=src&type=jpg&size=med")
+    tmp <- tempfile()
+    dl_status <- download.file(url, tmp, quiet = TRUE, mode = "wb")
+    pic <- jpeg::readJPEG(tmp)
+    plot(1, type = "n", xlim = c(0, 1), ylim = c(0, 1), bty = "n", 
+        xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+    graphics::rasterImage(pic, 0, 0, 1, 1)
+    rm_status <- file.remove(tmp)
+    status <- all(!as.logical(dl_status), rm_status)
+    return(invisible(status))
+}
+<bytecode: 0x1272f51b8>
+<environment: namespace:meow>
+```
+
+## There is a cat picture API!
+
+- Conceptually the same as emuR example
+- "make phoneme level segmentation" = "give me a medium sized jpg cat pic" 
+- Why the archives have no APIs?
+- Why so few morphological analysators have?
+    - Bindings would give same advantage
+
+## {data-background-iframe="https://pypi.python.org/pypi/hfst"}
