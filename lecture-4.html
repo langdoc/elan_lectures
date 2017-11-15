@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="lecture-4_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="lecture-4_files/reveal.js-3.3.0.1/css/theme/white.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="custom.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section><section id="getting-complicated" class="titleslide slide level1"><h1>Getting complicated</h1></section><section id="more-advanced-example" class="slide level2">
+<h2>More advanced example</h2>
+<ul>
+<li>In this example we are going to use an emuR R package</li>
+<li>Connects to the web services in BAS</li>
+<li>Starting point:
+<ul>
+<li>Forced alignation tools are good enough</li>
+<li>We can get from utterance level to phoneme level for free</li>
+</ul></li>
+</ul>
+</section><section id="section" class="slide level2" data-background-iframe="http://ips-lmu.github.io/EMU.html">
+<h2></h2>
+</section><section id="the-way-it-works" class="slide level2">
+<h2>The way it works</h2>
+<ul>
+<li>emuR takes specifically formatted files, builds a database out of those, sends something from there to Munchen, does something over there, we get the result back, that can be written into Praat TextGrid</li>
+<li>When we have Praat TextGrids, we can apply PraatScript</li>
+<li>(We can execute the PraatScript safely from Terminal or R)</li>
+<li>You’ll see!</li>
+</ul>
+</section><section id="section-1" class="slide level2">
+<h2></h2>
+<ul>
+<li>It’s often good idea to do all modification and variable creation in one spot…</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eafs &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">&#39;~/github/test-corpus/&#39;</span>, <span class="dt">pattern =</span> <span class="st">&#39;eaf$&#39;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)
+
+corpus &lt;-<span class="st"> </span>eafs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(read_custom_eaf) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>()
+
+corpus &lt;-<span class="st"> </span>corpus <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">time_duration =</span> time_end <span class="op">-</span><span class="st"> </span>time_start) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">audio_file =</span> <span class="kw">str_replace</span>(filename, <span class="st">&#39;eaf$&#39;</span>, <span class="st">&#39;wav&#39;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">orth_trimmed =</span> <span class="kw">str_replace_all</span>(orth, <span class="kw">c</span>(<span class="st">&#39;[:punct:]&#39;</span> =<span class="st"> &#39;&#39;</span>, 
+                                                <span class="st">&#39;</span><span class="ch">\\</span><span class="st">s+&#39;</span> =<span class="st"> &#39; &#39;</span>))) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span>participant <span class="op">==</span><span class="st"> &#39;NTP-M-1986&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># just getting rid of myself</span>
+<span class="st">  </span><span class="kw">select</span>(orth_trimmed, time_start, time_end, time_duration, <span class="kw">everything</span>())</code></pre></div>
+</section><section id="section-2" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">density</span>(corpus<span class="op">$</span>time_duration))</code></pre></div>
+<p><img src="lecture-4_files/figure-revealjs/unnamed-chunk-3-1.png" width="3200" /></p>
+</section><section id="section-3" class="slide level2">
+<h2></h2>
+<ul>
+<li>One type of data emuR can handle is audio file + matching text file</li>
+<li>It is also picky about the audio files</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(exifr)
+corpus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>(audio_file) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">pull</span>(audio_file) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">map</span>(<span class="op">~</span><span class="st"> </span>exifr<span class="op">::</span><span class="kw">read_exif</span>(.x)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>() <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">rename</span>(<span class="dt">audio_file =</span> SourceFile) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(BitsPerSample, Duration, FileType, NumChannels, <span class="kw">everything</span>())</code></pre></div>
+<pre><code>## # A tibble: 3 x 18
+##   BitsPerSample  Duration FileType NumChannels
+##           &lt;int&gt;     &lt;dbl&gt;    &lt;chr&gt;       &lt;int&gt;
+## 1            16  21.51023      WAV           2
+## 2            16 101.82523      WAV           2
+## 3            16  90.70569      WAV           2
+## # ... with 14 more variables: audio_file &lt;chr&gt;, ExifToolVersion &lt;dbl&gt;,
+## #   FileName &lt;chr&gt;, Directory &lt;chr&gt;, FileSize &lt;int&gt;, FileModifyDate &lt;chr&gt;,
+## #   FileAccessDate &lt;chr&gt;, FileInodeChangeDate &lt;chr&gt;,
+## #   FilePermissions &lt;int&gt;, FileTypeExtension &lt;chr&gt;, MIMEType &lt;chr&gt;,
+## #   Encoding &lt;int&gt;, SampleRate &lt;int&gt;, AvgBytesPerSec &lt;int&gt;</code></pre>
+<ul>
+<li>Too many channels! The web service will crash if it sees this!</li>
+</ul>
+</section><section id="section-4" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(glue)
+
+corpus <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">distinct</span>(audio_file) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">pull</span>(audio_file) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">walk</span>(<span class="op">~</span><span class="st"> </span>{
+    seewave<span class="op">::</span><span class="kw">sox</span>(<span class="kw">glue</span>(<span class="st">&quot;{.x} -c 1 {str_replace(.x, &#39;wav$&#39;, &#39;-mono.wav&#39;)}&quot;</span>))
+    })</code></pre></div>
+</section><section id="section-5" class="slide level2">
+<h2></h2>
+<ul>
+<li>Let’s define a function that cuts ELAN files by reference</li>
+<li>seewave package can access sox from R</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cut_elan_ref &lt;-<span class="st"> </span><span class="cf">function</span>(audio_file, reference_id, start, duration){
+  
+  <span class="cf">if</span> (<span class="kw">dir.exists</span>(<span class="st">&#39;~/github/test-corpus/reference_clips&#39;</span>) <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>) {
+    <span class="kw">dir.create</span>(<span class="st">&#39;~/github/test-corpus/reference_clips&#39;</span>)
+  }
+
+  seewave<span class="op">::</span><span class="kw">sox</span>(<span class="dt">command =</span> <span class="kw">glue</span>(<span class="st">&quot;{str_replace(audio_file, &#39;wav$&#39;, &#39;-mono.wav&#39;)} ~/github/test-corpus/reference_clips/{reference_id}.wav trim {start / 1000} {duration / 1000}&quot;</span>))
+  
+}</code></pre></div>
+</section><section id="section-6" class="slide level2">
+<h2></h2>
+<ul>
+<li>walk is same as map, but it doesn’t output anything, you use it for side-effects (like writing file)
+<ul>
+<li>Aaaactually, it silently returns what it got</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corpus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>(audio_file, ref, time_start, time_duration, orth_trimmed) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">split</span>(.<span class="op">$</span>ref) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">walk</span>(., <span class="op">~</span><span class="st"> </span><span class="kw">cut_elan_ref</span>(.x<span class="op">$</span>audio_file, .x<span class="op">$</span>ref, .x<span class="op">$</span>time_start, .x<span class="op">$</span>time_duration)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">walk</span>(., <span class="op">~</span><span class="st"> </span><span class="kw">write_lines</span>(.x<span class="op">$</span>orth_trimmed[<span class="dv">1</span>], <span class="dt">path =</span> glue<span class="op">::</span><span class="kw">glue</span>(<span class="st">&#39;~/github/test-corpus/reference_clips/&#39;</span>, .<span class="op">$</span>ref[<span class="dv">1</span>], <span class="st">&#39;.txt&#39;</span>)))</code></pre></div>
+</section><section id="section-7" class="slide level2" data-background-image="https://i.imgur.com/XC7Xo3m.png" background-image-size="65%">
+<h2></h2>
+</section><section id="section-8" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(emuR)
+<span class="kw">convert_txtCollection</span>(<span class="dt">dbName =</span> <span class="st">&#39;test-corpus&#39;</span>, 
+                            <span class="dt">sourceDir =</span> <span class="st">&#39;~/github/test-corpus/reference_clips&#39;</span>, 
+                            <span class="dt">targetDir =</span> <span class="st">&#39;.&#39;</span>, 
+                            <span class="dt">txtExtension =</span> <span class="st">&#39;.txt&#39;</span>, 
+                            <span class="dt">mediaFileExtension =</span> <span class="st">&#39;wav&#39;</span>, 
+                            <span class="dt">attributeDefinitionName =</span> <span class="st">&#39;orth&#39;</span>)
+
+dbHandle =<span class="st"> </span><span class="kw">load_emuDB</span>(<span class="st">&#39;test-corpus_emuDB&#39;</span>, <span class="dt">verbose =</span> F)</code></pre></div>
+</section><section id="section-9" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runBASwebservice_g2pForTokenization</span>(<span class="dt">handle =</span> dbHandle,
+  <span class="dt">transcriptionAttributeDefinitionName =</span> <span class="st">&#39;orth&#39;</span>, <span class="dt">language =</span> <span class="st">&#39;rus-RU&#39;</span>,
+  <span class="dt">orthoAttributeDefinitionName =</span> <span class="st">&#39;ORT&#39;</span>, <span class="dt">resume =</span> <span class="ot">FALSE</span>,
+  <span class="dt">verbose =</span> <span class="ot">TRUE</span>)
+
+<span class="kw">runBASwebservice_g2pForPronunciation</span>(<span class="dt">handle =</span> dbHandle,
+                  <span class="dt">orthoAttributeDefinitionName =</span> <span class="st">&#39;ORT&#39;</span>,
+                  <span class="dt">language =</span> <span class="st">&#39;und&#39;</span>, 
+                  <span class="dt">canoAttributeDefinitionName =</span> <span class="st">&#39;KAN&#39;</span>, 
+                  <span class="dt">params =</span> <span class="kw">list</span>(<span class="dt">embed =</span> <span class="st">&#39;maus&#39;</span>, <span class="dt">imap=</span>RCurl<span class="op">::</span><span class="kw">fileUpload</span>(<span class="st">&quot;~/github/test-corpus/kpv-sampa.txt&quot;</span>)), 
+                  <span class="dt">resume =</span> <span class="ot">FALSE</span>, 
+                  <span class="dt">verbose =</span> <span class="ot">TRUE</span>)
+
+<span class="kw">runBASwebservice_maus</span>(<span class="dt">handle =</span> dbHandle,
+                      <span class="dt">canoAttributeDefinitionName =</span> <span class="st">&#39;KAN&#39;</span>,
+                      <span class="dt">language =</span> <span class="st">&#39;rus-RU&#39;</span>,
+                      <span class="dt">mausAttributeDefinitionName =</span> <span class="st">&#39;MAUS&#39;</span>,
+                      <span class="dt">chunkLevel =</span> <span class="ot">NULL</span>,
+                      <span class="dt">turnChunkLevelIntoItemLevel =</span> <span class="ot">TRUE</span>,
+                      <span class="dt">perspective =</span> <span class="st">&#39;default&#39;</span>,
+                      <span class="dt">resume =</span> <span class="ot">FALSE</span>,
+                      <span class="dt">verbose =</span> <span class="ot">TRUE</span>)
+
+<span class="kw">export_TextGridCollection</span>(dbHandle, <span class="dt">targetDir =</span> <span class="st">&#39;~/github/test-corpus/praat&#39;</span>, <span class="dt">attributeDefinitionNames =</span> <span class="kw">c</span>(<span class="st">&#39;ORT&#39;</span>, <span class="st">&#39;KAN&#39;</span>, <span class="st">&#39;MAUS&#39;</span>))</code></pre></div>
+</section><section id="section-10" class="slide level2" data-background-image="https://i.imgur.com/C7HfnXx.png" background-image-size="65%">
+<h2></h2>
+</section><section id="section-11" class="slide level2" data-background-image="https://i.imgur.com/Mh6ev8o.png" background-image-size="65%">
+<h2></h2>
+</section><section id="section-12" class="slide level2">
+<h2></h2>
+<h3 id="this-is-where-one-starts-to-think">This is where one starts to think:</h3>
+<h3 id="should-had-i-checked-all-transcriptions-once-more-before-i-did-this">“should had I checked all transcriptions once more before I did this?”</h3>
+</section><section id="section-13" class="slide level2" data-background-image="https://i.imgur.com/hxdO7Oy.png" background-image-size="60%">
+<h2></h2>
+</section></section>
+<section><section id="integrating-tools" class="titleslide slide level1"><h1>Integrating tools</h1></section><section id="shiny" class="slide level2">
+<h2>Shiny</h2>
+<ul>
+<li>Earlier we had an example of a JavaScript based web content</li>
+<li>Nice, but still limited</li>
+<li>It is possible to build small applications also in R</li>
+<li>Can be hosted for free online, but things get fast tricky</li>
+<li>Anyway having something running and up on server is already bit more complex</li>
+<li>Generally very good for prototyping
+<ul>
+<li>Compact, lots of examples, logic easy to follow</li>
+<li>Again, probably it all could be done from scratch in JavaScript</li>
+</ul></li>
+</ul>
+</section><section id="praatscript" class="slide level2">
+<h2>PraatScript</h2>
+<ul>
+<li>A scripting language that allows using Praat functionalities</li>
+<li>Works within Praat, and outside Praat</li>
+<li>Somewhat popular: internet is full of examples</li>
+<li>Not entirely easy or intuitive, but not that bad
+<ul>
+<li>Follows a lot what happens in Praat GUI</li>
+</ul></li>
+</ul>
+</section><section id="section-14" class="slide level2">
+<h2></h2>
+</section></section>
+    </div>
+  </div>
+
+  <script src="lecture-4_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="lecture-4_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

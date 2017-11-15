@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="lecture-2_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="lecture-2_files/reveal.js-3.3.0.1/css/theme/white.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="custom.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="lecture-2_files/htmlwidgets-0.9/htmlwidgets.js"></script>
+    <script src="lecture-2_files/blazy-1.8.2/blazy.min.js"></script>
+    <script src="lecture-2_files/pymjs-1.3.2/pym.v1.js"></script>
+    <script src="lecture-2_files/widgetframe-binding-0.3.0/widgetframe.js"></script>
+    <script src="lecture-2_files/jquery-1.12.4/jquery.min.js"></script>
+    <link href="lecture-2_files/leaflet-0.7.7/leaflet.css" rel="stylesheet" />
+    <script src="lecture-2_files/leaflet-0.7.7/leaflet.js"></script>
+    <link href="lecture-2_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+    <link href="lecture-2_files/leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+    <script src="lecture-2_files/leaflet-label-0.2.2/leaflet.label.js"></script>
+    <script src="lecture-2_files/Proj4Leaflet-0.7.2/proj4-compressed.js"></script>
+    <script src="lecture-2_files/Proj4Leaflet-0.7.2/proj4leaflet.js"></script>
+    <script src="lecture-2_files/leaflet-binding-1.1.0/leaflet.js"></script>
+    <script src="lecture-2_files/leaflet-providers-1.0.27/leaflet-providers.js"></script>
+    <script src="lecture-2_files/leaflet-providers-plugin-1.1.0/leaflet-providers-plugin.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="getting-our-test-corpus-into-r" class="slide level2" data-background="white">
+<h2>Getting our test corpus into R</h2>
+<h3 id="niko-partanen">Niko Partanen</h3>
+<p><img src="images/Rlogo" alt="" width="100px" /></p>
+</section>
+<section><section id="test-corpus" class="titleslide slide level1"><h1>Test corpus</h1></section><section id="what-is-there" class="slide level2">
+<h2>What is there?</h2>
+<ul>
+<li>Tiny collection of Komi recordings</li>
+<li>Can be downloaded here</li>
+<li>Fragmentary recordings, but quite realistic examples</li>
+<li>Metadata in CMDI files</li>
+</ul>
+</section><section id="structure" class="slide level2">
+<h2>Structure</h2>
+<ul>
+<li>Follows the Freiburg standards in tier structure and naming
+<ul>
+<li>Matches closely Kola Saami and Pite Saami corpora</li>
+</ul></li>
+</ul>
+<pre><code>- reference tier
+    \- transcription tier
+        \- token tier
+           \- lemma
+               \- pos
+    \- translation tier</code></pre>
+<ul>
+<li>ELAN corpora are very individualistic
+<ul>
+<li>Nothing works out of the box, but we will move into customization after lunch</li>
+</ul></li>
+</ul>
+</section><section id="frelan" class="slide level2">
+<h2>FRelan</h2>
+<ul>
+<li>An R package that contains many functions usable with Freiburg standard</li>
+<li>Some parts probably adaptable elsewhere</li>
+</ul>
+<pre><code>library(devtools)
+install_github(&#39;langdoc/FRelan&#39;)</code></pre>
+<ul>
+<li>Later we will focus into <code>read_tier()</code> function</li>
+<li>After that individual parsing method can be baked into a new function</li>
+</ul>
+</section><section id="reading-files-into-r" class="slide level2">
+<h2>Reading files into R</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(xml2)
+
+corpus &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="st">&#39;../adv_elan_draft/corpus&#39;</span>, <span class="dt">pattern =</span> <span class="st">&#39;eaf$&#39;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">map</span>(FRelan<span class="op">::</span>read_eaf) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">bind_rows</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(token, participant, session_name, time_start, time_end, <span class="kw">everything</span>())
+
+corpus</code></pre></div>
+<pre><code>## # A tibble: 569 x 11
+##      token participant                session_name time_start time_end
+##      &lt;chr&gt;       &lt;chr&gt;                       &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1      ме  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  2       ,  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  3 кӧнечнэ  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  4      же  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  5       ,  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  6     кык  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  7     лун  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  8    вӧлі  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  9       в  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+## 10    шоке  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+## # ... with 559 more rows, and 6 more variables: utterance &lt;chr&gt;,
+## #   reference &lt;chr&gt;, filename &lt;chr&gt;, word &lt;chr&gt;, after &lt;chr&gt;, before &lt;chr&gt;</code></pre>
+</section><section id="working-further" class="slide level2">
+<h2>Working further</h2>
+<ul>
+<li>In this point it is easy to filter and examine the result as any data frame</li>
+<li>I have described the basic ‘verbs’ <a href="">here</a></li>
+</ul>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corpus <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(token <span class="op">==</span><span class="st"> &#39;вӧлі&#39;</span>)</code></pre></div>
+<pre><code>## # A tibble: 16 x 11
+##    token participant                      session_name time_start time_end
+##    &lt;chr&gt;       &lt;chr&gt;                             &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1  вӧлі  MVF-F-1984       kpv_izva20140330-1-fragment          0     6086
+##  2  вӧлі  MVF-F-1984       kpv_izva20140330-1-fragment       9313    14870
+##  3  вӧлі  JAI-M-1939 kpv_izva20140404IgusevJA-fragment          0     6196
+##  4  вӧлі  JAI-M-1939 kpv_izva20140404IgusevJA-fragment       6675     9865
+##  5  вӧлі  JAI-M-1939 kpv_izva20140404IgusevJA-fragment       9865    16940
+##  6  вӧлі  JAI-M-1939 kpv_izva20140404IgusevJA-fragment      23375    27600
+##  7  вӧлі  JAI-M-1939 kpv_izva20140404IgusevJA-fragment      27848    32261
+##  8  вӧлі  JAI-M-1939 kpv_izva20140404IgusevJA-fragment      80405    83726
+##  9  вӧлі  JAI-M-1939 kpv_izva20140404IgusevJA-fragment      83726    85805
+## 10  вӧлі  NTP-M-1986 kpv_udo20120330SazinaJS-encounter       9080     9970
+## 11  вӧлі  JSS-F-1988 kpv_udo20120330SazinaJS-encounter      13510    17400
+## 12  вӧлі  JSS-F-1988 kpv_udo20120330SazinaJS-encounter      17405    19515
+## 13  вӧлі  JSS-F-1988 kpv_udo20120330SazinaJS-encounter      17405    19515
+## 14  вӧлі  JSS-F-1988 kpv_udo20120330SazinaJS-encounter      34016    34993
+## 15  вӧлі  JSS-F-1988 kpv_udo20120330SazinaJS-encounter      35781    38639
+## 16  вӧлі  JSS-F-1988 kpv_udo20120330SazinaJS-encounter      81389    82220
+## # ... with 6 more variables: utterance &lt;chr&gt;, reference &lt;chr&gt;,
+## #   filename &lt;chr&gt;, word &lt;chr&gt;, after &lt;chr&gt;, before &lt;chr&gt;</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corpus <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">lag</span>(token) <span class="op">==</span><span class="st"> &#39;татшӧм&#39;</span> <span class="op">&amp;</span><span class="st"> </span>token <span class="op">==</span><span class="st"> &#39;вӧлі&#39;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(token, utterance, <span class="kw">everything</span>())</code></pre></div>
+<pre><code>## # A tibble: 1 x 11
+##   token    utterance participant                      session_name
+##   &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;                             &lt;chr&gt;
+## 1  вӧлі Татшӧм вӧлі.  JSS-F-1988 kpv_udo20120330SazinaJS-encounter
+## # ... with 7 more variables: time_start &lt;dbl&gt;, time_end &lt;dbl&gt;,
+## #   reference &lt;chr&gt;, filename &lt;chr&gt;, word &lt;chr&gt;, after &lt;chr&gt;, before &lt;chr&gt;</code></pre>
+</section><section class="slide level2">
+
+<ul>
+<li>lag() and lead() give the previous and next value</li>
+<li>With POS-tagged corpus, for example, one can easily search in manner:</li>
+</ul>
+<pre><code>corpus %&gt;% filter(lag(pos) == &#39;Pron&#39; &amp; token == &#39;V&#39;)</code></pre>
+<ul>
+<li>To find all pronoun + verb bigrams, for example.</li>
+</ul>
+</section><section id="housekeeping" class="slide level2">
+<h2>Housekeeping</h2>
+<ul>
+<li>It can also be useful to look for inconsistencies</li>
+<li>There should only be characters that belong to Komi writing system
+<ul>
+<li>One approach could be to filter out everything that is not punctuation or Cyrillic!</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corpus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">str_detect</span>(token, <span class="st">&#39;[[:punct:]</span><span class="ch">\\</span><span class="st">p{Cyrillic}]&#39;</span>))</code></pre></div>
+<pre><code>## # A tibble: 1 x 11
+##   token participant                      session_name time_start time_end
+##   &lt;chr&gt;       &lt;chr&gt;                             &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+## 1     a  NTP-M-1986 kpv_udo20120330SazinaJS-encounter      85947    86212
+## # ... with 6 more variables: utterance &lt;chr&gt;, reference &lt;chr&gt;,
+## #   filename &lt;chr&gt;, word &lt;chr&gt;, after &lt;chr&gt;, before &lt;chr&gt;</code></pre>
+</section><section id="opening-file" class="slide level2">
+<h2>Opening file</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corpus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">str_detect</span>(token, <span class="st">&#39;[[:punct:]</span><span class="ch">\\</span><span class="st">p{Cyrillic}]&#39;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span>FRelan<span class="op">::</span><span class="kw">open_eaf</span>(<span class="dv">1</span>)</code></pre></div>
+</section><section id="section" class="slide level2" data-background="https://i.imgur.com/F7Y9h7h.png">
+<h2></h2>
+</section><section class="slide level2">
+
+<ul>
+<li>To break this down:
+<ul>
+<li>a group: <code>[ ]</code></li>
+<li>punctuation: <code>[[:punct:]]</code></li>
+<li>Cyrillic Unicode block: <code>\\p{Cyrillic}</code></li>
+</ul></li>
+<li>This could almost be done in ELAN as well</li>
+</ul>
+</section><section class="slide level2">
+
+</section></section>
+<section><section id="metadata" class="titleslide slide level1"><h1>Metadata</h1></section><section id="what-about-it" class="slide level2">
+<h2>What about it?</h2>
+<ul>
+<li>Often discussed in archiving context</li>
+<li>Target of intensive standardization
+<ul>
+<li>… with very inconclusive results</li>
+</ul></li>
+<li>Comes in variety of formats</li>
+<li>Cannot be used in ELAN searches</li>
+</ul>
+</section><section id="cmdi" class="slide level2">
+<h2>cmdi</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(glue)
+
+read_cmdi &lt;-<span class="st"> </span><span class="cf">function</span>(cmdi_file){ <span class="co"># this defines the function</span>
+  <span class="kw">read_xml</span>(cmdi_file) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># reads the xml</span>
+<span class="st">  </span><span class="kw">xml_find_all</span>(<span class="st">&#39;//cmd:Actor&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># finds all Actor nodes</span>
+<span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="st"> </span><span class="kw">tibble</span>(<span class="dt">participant =</span> .x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_find_first</span>(<span class="st">&#39;./cmd:Code&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>xml_text,
+               <span class="dt">session_name =</span> .x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_find_first</span>(<span class="st">&#39;../../cmd:Name&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>xml_text,
+               <span class="dt">year_birth =</span> .x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_find_first</span>(<span class="st">&#39;./cmd:BirthDate&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>xml_text,
+               <span class="dt">year_rec =</span> .x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_find_first</span>(<span class="st">&#39;../../cmd:Date&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>xml_text,
+               <span class="dt">role =</span> .x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_find_first</span>(<span class="st">&#39;./cmd:Role&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>xml_text,
+               <span class="dt">sex =</span> .x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_find_first</span>(<span class="st">&#39;./cmd:Sex&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>xml_text,
+               <span class="dt">session_address =</span> .x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_find_first</span>(<span class="st">&#39;../../cmd:Location/cmd:Address&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>xml_text,
+               <span class="dt">session_country =</span> .x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_find_first</span>(<span class="st">&#39;../../cmd:Location/cmd:Country&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>xml_text,
+               <span class="dt">session_location =</span> <span class="kw">paste0</span>(session_address, <span class="st">&#39;, &#39;</span>, session_country),
+               <span class="dt">education =</span> .x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_find_first</span>(<span class="st">&#39;./cmd:Education&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>xml_text,
+               <span class="dt">name_full =</span> .x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_find_first</span>(<span class="st">&#39;./cmd:FullName&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>xml_text)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">bind_rows</span>() <span class="co"># After everything is collected into tibble/dataframe,</span>
+                <span class="co"># we can just bind the rows together</span>
+}</code></pre></div>
+</section><section id="applying-the-function" class="slide level2">
+<h2>Applying the function</h2>
+<p>In this point we can apply the function we just wrote into all cmdi files we have.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">metadata &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="st">&#39;../adv_elan_draft/corpus&#39;</span>, <span class="st">&#39;cmdi$&#39;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">map</span>(read_cmdi) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>()
+metadata</code></pre></div>
+<pre><code>## # A tibble: 9 x 11
+##   participant                      session_name year_birth   year_rec
+##         &lt;chr&gt;                             &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;
+## 1  MVF-F-1984       kpv_izva20140330-1-fragment       1984 2014-03-30
+## 2  VCP-M-1993       kpv_izva20140330-1-fragment       1993 2014-03-30
+## 3  NTP-M-1986       kpv_izva20140330-1-fragment       1986 2014-03-30
+## 4   MR-M-1971       kpv_izva20140330-1-fragment       1971 2014-03-30
+## 5   RB-M-1971       kpv_izva20140330-1-fragment       1971 2014-03-30
+## 6  JAI-M-1939 kpv_izva20140404IgusevJA-fragment       1939 2014-04-04
+## 7  NTP-M-1986 kpv_izva20140404IgusevJA-fragment       1986 2014-04-04
+## 8  NTP-M-1986 kpv_udo20120330SazinaJS-encounter       1986 2012-03-30
+## 9  JSS-F-1988 kpv_udo20120330SazinaJS-encounter       1988 2012-03-30
+## # ... with 7 more variables: role &lt;chr&gt;, sex &lt;chr&gt;, session_address &lt;chr&gt;,
+## #   session_country &lt;chr&gt;, session_location &lt;chr&gt;, education &lt;chr&gt;,
+## #   name_full &lt;chr&gt;</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corpus_full &lt;-<span class="st"> </span><span class="kw">left_join</span>(corpus, metadata)
+corpus_full</code></pre></div>
+<pre><code>## # A tibble: 569 x 20
+##      token participant                session_name time_start time_end
+##      &lt;chr&gt;       &lt;chr&gt;                       &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1      ме  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  2       ,  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  3 кӧнечнэ  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  4      же  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  5       ,  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  6     кык  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  7     лун  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  8    вӧлі  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+##  9       в  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+## 10    шоке  MVF-F-1984 kpv_izva20140330-1-fragment          0     6086
+## # ... with 559 more rows, and 15 more variables: utterance &lt;chr&gt;,
+## #   reference &lt;chr&gt;, filename &lt;chr&gt;, word &lt;chr&gt;, after &lt;chr&gt;,
+## #   before &lt;chr&gt;, year_birth &lt;chr&gt;, year_rec &lt;chr&gt;, role &lt;chr&gt;, sex &lt;chr&gt;,
+## #   session_address &lt;chr&gt;, session_country &lt;chr&gt;, session_location &lt;chr&gt;,
+## #   education &lt;chr&gt;, name_full &lt;chr&gt;</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># coordinates &lt;- corpus_full %&gt;%</span>
+<span class="co">#   distinct(session_location) %&gt;%</span>
+<span class="co">#   as.data.frame() %&gt;%</span>
+<span class="co">#   ggmap::mutate_geocode(session_location) %&gt;%</span>
+<span class="co">#   as_tibble()</span>
+
+<span class="co"># write_csv(coordinates, &#39;coordinates.csv&#39;)</span>
+
+coordinates &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;coordinates.csv&#39;</span>, <span class="dt">col_types =</span> <span class="st">&#39;cdd&#39;</span>)
+
+corpus_geo &lt;-<span class="st"> </span><span class="kw">left_join</span>(corpus_full, coordinates) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">lon_session =</span> lon, 
+         <span class="dt">lat_session =</span> lat)</code></pre></div>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(leaflet)
+<span class="kw">library</span>(htmlwidgets)
+<span class="kw">library</span>(widgetframe)
+
+map &lt;-<span class="st"> </span><span class="kw">leaflet</span>(<span class="dt">data =</span> corpus_geo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">add_count</span>(session_name)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">addProviderTiles</span>(providers<span class="op">$</span>CartoDB.Positron) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">addCircleMarkers</span>(<span class="dt">lng =</span> <span class="op">~</span>lon_session,
+             <span class="dt">lat =</span> <span class="op">~</span>lat_session, <span class="dt">radius =</span> <span class="op">~</span><span class="kw">log</span>(n),
+             <span class="dt">popup =</span> <span class="op">~</span><span class="kw">glue</span>(<span class="st">&#39;Recording place: {session_location}&lt;/br&gt;</span>
+<span class="st">                           Number of tokens: {n}&#39;</span>))
+
+<span class="kw">frameWidget</span>(map)</code></pre></div>
+<div id="htmlwidget-76e11aad4e543dac63b2" style="width:100%;height:2400px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-76e11aad4e543dac63b2">{"x":{"url":"lecture-2_files/figure-revealjs//widgets/widget_leaflet_1.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-0f7749f5eee9d570b065" style="width:100%;height:400px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0f7749f5eee9d570b065">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]},{"method":"addCircleMarkers","args":[[65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,65.273582,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,61.6478508,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557,60.1698557],[53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,53.368473,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,50.8339029,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791,24.9383791],[4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,4.58496747867057,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.52146091786225,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775,5.39816270151775],null,null,{"lineCap":null,"lineJoin":null,"clickable":true,"pointerEvents":null,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"dashArray":null},null,null,["Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Diyur, Russia<\/br>\nNumber of tokens: 98","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Syktyvkar, Russia<\/br>\nNumber of tokens: 250","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221","Recording place: Helsinki, Finland<\/br>\nNumber of tokens: 221"],null,null,null,null]}],"limits":{"lat":[60.1698557,65.273582],"lng":[24.9383791,53.368473]}},"evals":[],"jsHooks":[]}</script>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kpv_map &lt;-<span class="st"> </span><span class="kw">leaflet</span>(<span class="dt">data =</span> kpv <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(lon_session))) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">addProviderTiles</span>(providers<span class="op">$</span>CartoDB.Positron) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">addCircleMarkers</span>(<span class="dt">lng =</span> <span class="op">~</span><span class="kw">jitter</span>(lon_session, <span class="dv">10</span>),
+             <span class="dt">lat =</span> <span class="op">~</span><span class="kw">jitter</span>(lat_session, <span class="dv">10</span>),
+             <span class="dt">popup =</span> <span class="op">~</span><span class="kw">glue</span>(<span class="st">&#39;{session_name}&lt;/br&gt;</span>
+<span class="st">                           {title_eng}&lt;/br&gt;</span>
+<span class="st">                           Recording place: {session_location}&lt;/br&gt;</span>
+<span class="st">                           Number of tokens: {token_count}&lt;/br&gt;&#39;</span>),
+             <span class="dt">clusterOptions =</span> <span class="kw">markerClusterOptions</span>(<span class="dt">freezeAtZoom =</span> <span class="dv">5</span>))
+
+<span class="kw">frameWidget</span>(kpv_map)</code></pre></div>
+<div id="htmlwidget-d9b59f3e1f9828f04a8d" style="width:100%;height:2400px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d9b59f3e1f9828f04a8d">{"x":{"url":"lecture-2_files/figure-revealjs//widgets/widget_kpv_map.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kpv_birth_map &lt;-<span class="st"> </span><span class="kw">leaflet</span>(<span class="dt">data =</span> kpv <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(lon_birth))) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">addProviderTiles</span>(providers<span class="op">$</span>CartoDB.Positron) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">addCircleMarkers</span>(<span class="dt">lng =</span> <span class="op">~</span><span class="kw">jitter</span>(lon_birth, <span class="dv">10</span>),
+             <span class="dt">lat =</span> <span class="op">~</span><span class="kw">jitter</span>(lat_birth, <span class="dv">10</span>),
+             <span class="dt">popup =</span> <span class="op">~</span><span class="kw">glue</span>(<span class="st">&#39;{session_name}&lt;/br&gt;</span>
+<span class="st">                           {title_eng}&lt;/br&gt;</span>
+<span class="st">                           Recording place: {session_location}&lt;/br&gt;</span>
+<span class="st">                           Number of tokens: {token_count}&lt;/br&gt;&#39;</span>),
+             <span class="dt">clusterOptions =</span> <span class="kw">markerClusterOptions</span>(<span class="dt">freezeAtZoom =</span> <span class="dv">5</span>))
+
+<span class="kw">frameWidget</span>(kpv_birth_map)</code></pre></div>
+<div id="htmlwidget-234d7d21d46ab5c14b9f" style="width:100%;height:2400px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-234d7d21d46ab5c14b9f">{"x":{"url":"lecture-2_files/figure-revealjs//widgets/widget_kpv_birth.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+</section></section>
+    </div>
+  </div>
+
+  <script src="lecture-2_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="lecture-2_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

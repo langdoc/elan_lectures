@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="lecture-1_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="lecture-1_files/reveal.js-3.3.0.1/css/theme/white.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="custom.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="elan-r-and-python" class="slide level2" data-background="white">
+<h2>ELAN, R and Python</h2>
+<h3 id="thought-on-how-these-go-together">Thought on how these go together</h3>
+<h3 id="niko-partanen">Niko Partanen</h3>
+<p><img src="images/Rlogo" alt="" width="100px" /></p>
+</section>
+<section><section id="introduction" class="titleslide slide level1"><h1>Introduction</h1></section><section id="who-am-i" class="slide level2">
+<h2>Who am I?</h2>
+<ul>
+<li>A linguist with MA in Finno-Ugristics</li>
+<li>Doing my PhD (supervisor Michael Rießler)
+<ul>
+<li>Topic: Variation in Komi dialects</li>
+</ul></li>
+<li>Komi is an Uralic language
+<ul>
+<li>Occasionally I also touch Udmurt and Karelian</li>
+</ul></li>
+<li>I stay now in LATTICE laboratory in Paris
+<ul>
+<li>Work there focuses to dependency parsing</li>
+</ul></li>
+</ul>
+</section><section id="what-i-am-not" class="slide level2">
+<h2>What I am not?</h2>
+<ul>
+<li>A professional programmer</li>
+<li>I know R rather well, Python less so
+<ul>
+<li>I work regularly with both + bit with JavaScript</li>
+</ul></li>
+<li>I genuinely like programming</li>
+<li>I believe formulating our research questions programmatically is the way to go</li>
+</ul>
+</section><section id="section" class="slide level2" data-background-image="https://i.imgur.com/hH0xro2.png" data-background-size="70%">
+<h2></h2>
+</section><section id="what-is-this-course" class="slide level2">
+<h2>What is this course?</h2>
+<ul>
+<li>Lots of R courses dive directly into statistical analysis</li>
+<li>In this workshop we stay in more shallow waters
+<ul>
+<li>We don’t go far at all</li>
+<li>But I hope this opens new directions</li>
+</ul></li>
+</ul>
+</section><section id="we-will-learn" class="slide level2">
+<h2>We will learn</h2>
+<ul>
+<li>Parsing ELAN files and metadata into R
+<ul>
+<li>Adapting to your needs</li>
+</ul></li>
+<li>Manipulating that data in R</li>
+<li>Building some interactive workflows around R, ELAN and Praat</li>
+<li>Use Python to manipulate tier structures and explore Pympi
+<ul>
+<li>Little bit that with R as well…</li>
+</ul></li>
+<li>Basic concepts for creating visualization from the data</li>
+</ul>
+</section></section>
+<section><section id="what-is-elan" class="titleslide slide level1"><h1>What is ELAN?</h1></section><section id="elan-corpora" class="slide level2">
+<h2>ELAN corpora</h2>
+<ul>
+<li>Often data from endangered languages
+<ul>
+<li>Limited resources</li>
+<li>Language technology underdeveloped</li>
+<li>NLP tools usually target larger languages</li>
+</ul></li>
+<li>Data often collected in prolonged period of time
+<ul>
+<li>Research projects spanning usually three years</li>
+<li>Not created by large number of people, but rarely by just one</li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+
+<ul>
+<li>Interlinearized glosses may be included
+<ul>
+<li>Created through a round trip to FLEX or Toolbox</li>
+<li>Done manually within ELAN</li>
+<li>Time will tell what new Interlinearization Mode brings</li>
+</ul></li>
+</ul>
+</section><section id="what-follows" class="slide level2">
+<h2>What follows…</h2>
+<ul>
+<li>Typos</li>
+<li>Wrongly done clicks</li>
+<li>Overlaps with people working with same file
+<ul>
+<li>Random hacks to keep things together</li>
+</ul></li>
+<li>Inconsistencies between files</li>
+<li>Different tier templates during years</li>
+<li>More hacks and tricks</li>
+</ul>
+</section><section id="how-they-are-used" class="slide level2">
+<h2>How they are used?</h2>
+<ul>
+<li>Examples in grammatical descriptions, links to corpus</li>
+</ul>
+<p><img src="https://i.imgur.com/QWqMHBa.png" /></p>
+<p><img src="https://i.imgur.com/bSgPfnj.png" /></p>
+</section><section id="elan-corpora-1" class="slide level2">
+<h2>ELAN corpora?</h2>
+<ul>
+<li>Some people refuse to call their transcribed and annotated materials corpus</li>
+<li>The fact that data is referred to doesn’t mean that corpus contains those annotations
+<ul>
+<li>The reference means usually <strong>that this example exists</strong></li>
+</ul></li>
+<li>Others must have already finished this conversation</li>
+</ul>
+</section><section class="slide level2">
+
+<h3 id="elan-corpus">ELAN corpus</h3>
+<h3 id="section-1">=</h3>
+<h3 id="anything-that-is-in-elan-file">anything that is in ELAN file</h3>
+</section><section id="what-is-there" class="slide level2">
+<h2>What is there?</h2>
+<ul>
+<li>Transcriptions</li>
+<li>Tokenized and/or annotated layers</li>
+<li>Linked files</li>
+<li>Participant ID’s
+<ul>
+<li>In tier names or <code>PARTICIPANT</code> attributes</li>
+</ul></li>
+<li>Session name (?)</li>
+<li>Comments and notes</li>
+<li>Translations</li>
+</ul>
+</section><section id="whats-the-problem" class="slide level2">
+<h2>What’s the problem?</h2>
+<ul>
+<li>Language documentation corpora are rarely used in corpus linguistic fashion, compare:</li>
+</ul>
+<blockquote>
+<p>“Finding an example of phenomena X”</p>
+</blockquote>
+<blockquote>
+<p>“Find all instances of phenomena X, do something with those”</p>
+</blockquote>
+</section><section id="why-this-matters" class="slide level2">
+<h2>Why this matters?</h2>
+<ul>
+<li>The corpora are rarely thoroughly tested</li>
+<li>It is not certain all files share the same structure and conventions</li>
+<li>The questions of representativity are easily skipped</li>
+</ul>
+</section><section class="slide level2">
+
+</section></section>
+<section><section id="r-and-python" class="titleslide slide level1"><h1>R and Python</h1></section><section class="slide level2">
+
+<p><img src="images/Rlogo.png" width="20%" /></p>
+<p><img src="images/200px-Python.svg.png" width="20%" /></p>
+</section><section class="slide level2">
+
+<ul>
+<li>Programming languages</li>
+<li>Active communities around them (#rstats in Twitter)</li>
+<li>Data manipulation and visualization typical uses</li>
+<li>R orientates toward statistics, Python more general</li>
+<li>“Sort of similar” in the end of the day (my opinion)</li>
+</ul>
+</section><section id="notes-about-r" class="slide level2">
+<h2>Notes about R</h2>
+<ul>
+<li>R is currently going through large transformation</li>
+<li>Tidyverse: collection of packages that operate consistently with one another</li>
+<li>Makes R kind of an moving target at the moment</li>
+<li>Opinionated, but clearly the direction to go</li>
+<li>Without doubt R is getting less cumbersome</li>
+</ul>
+</section><section id="section-2" class="slide level2" data-background="black">
+<h2></h2>
+<p><img src="https://i.imgur.com/pyRnT7a.png" /></p>
+</section><section id="notes-about-python" class="slide level2">
+<h2>Notes about Python</h2>
+<ul>
+<li>Python module <a href="http://dopefishh.github.io/pympi/">Pympi</a> is very useful to work with ELAN and Praat files
+<ul>
+<li>Hides a bit the murky details</li>
+<li>Probably has solved many problems – no need to reinvent the wheel</li>
+</ul></li>
+<li>More generic signal processing tools
+<ul>
+<li><a href="http://pyannote.github.io/">pyannote</a></li>
+</ul></li>
+<li>Good NLP ecosystem (<a href="http://www.nltk.org/">nltk</a>)</li>
+</ul>
+</section><section id="notebooks" class="slide level2">
+<h2>Notebooks</h2>
+<ul>
+<li><a href="http://rmarkdown.rstudio.com/">RMarkdown</a> and <a href="http://jupyter.org/">Jupyter Notebook</a></li>
+<li>Can be run interactively in the server</li>
+<li>Allows combining text, code and citations into one document</li>
+<li>At least with R can also be combined into LaTeX document
+<ul>
+<li>If you really want to go down that road!</li>
+</ul></li>
+<li>It is also easy to generate LaTeX fragments or HTML</li>
+</ul>
+</section><section id="why-r-or-python" class="slide level2">
+<h2>Why R or Python?</h2>
+<ul>
+<li>Easy to build data validation tools</li>
+<li>Easy to automatize some tedious tasks</li>
+<li>Leverages some other tools that can enrich our data</li>
+<li>Good collection of HTML and PDF outputs</li>
+<li>High level of <a href="https://www.biorxiv.org/content/early/2016/07/29/066803">reproducibility</a>
+<ul>
+<li>Inluding <strong>you</strong> in few months</li>
+<li>We will see advantages of this on the course</li>
+</ul></li>
+<li>Tasks can be automatized
+<ul>
+<li>We humans are bad in repeating tasks!</li>
+<li>More a shift in workload than total freedom</li>
+<li>But ideally more time for thinking and important tasks</li>
+</ul></li>
+</ul>
+</section><section id="how-to-learn-more" class="slide level2">
+<h2>How to learn more?</h2>
+</section><section id="section-3" class="slide level2" data-background-iframe="http://r4ds.had.co.nz/">
+<h2></h2>
+</section><section id="section-4" class="slide level2" data-background-iframe="https://adv-r.hadley.nz/">
+<h2></h2>
+</section><section id="section-5" class="slide level2" data-background-iframe="http://socviz.co/">
+<h2></h2>
+</section><section id="section-6" class="slide level2" data-background-iframe="https://www.degruyter.com/view/product/203826">
+<h2></h2>
+</section><section id="section-7" class="slide level2" data-background-iframe="https://benjamins.com/#catalog/books/z.195/main">
+<h2></h2>
+</section><section id="section-8" class="slide level2" data-background-iframe="http://www.nltk.org/">
+<h2></h2>
+</section><section id="please-send-me-good-python-resources" class="slide level2">
+<h2>Please send me good Python resources!</h2>
+</section><section id="pythons-role" class="slide level2">
+<h2>Python’s role</h2>
+<ul>
+<li>Lots of NLP tools work around Python
+<ul>
+<li>Bindings to morphological analysators, <a href="">hfst</a></li>
+<li>Syntactic parsers</li>
+</ul></li>
+<li>It is much more widely used than R</li>
+<li>Pympi is rather mature tool already</li>
+<li>If most generic parts of the workflows are implemented in Python, the potential to reuse is bigger</li>
+<li>Although, if all we do is send command line calls around, who cares</li>
+</ul>
+</section><section id="example-tier-creation" class="slide level2">
+<h2>Example: Tier creation</h2>
+<p>Do we approach it as:</p>
+<pre><code>- create xml node, add attributes x, y and z, add child, add other child, blaablaablaa</code></pre>
+<p>Or as:</p>
+<pre><code>- create_tier(...)</code></pre>
+</section><section id="comparison" class="slide level2">
+<h2>Comparison</h2>
+<ol type="1">
+<li>Works in specific use case in specific kind of files</li>
+<li>Is general, bugs can be solved together
+<ul>
+<li>ELAN always does things same way, so we must to be able to replicate exactly that</li>
+</ul></li>
+</ol>
+</section><section id="my-point" class="slide level2">
+<h2>My point:</h2>
+<h3 id="ideally-more-general-than-atomistic-solutions">Ideally more general than atomistic solutions</h3>
+</section><section id="next-about-perils-of-exporting" class="slide level2">
+<h2>Next: About perils of exporting</h2>
+</section></section>
+<section><section id="evils-of-exporting" class="titleslide slide level1"><h1>Evils of exporting</h1></section><section id="elan-export-as-part-of-the-workflow" class="slide level2">
+<h2>ELAN export as part of the workflow</h2>
+<p><img src="https://i.imgur.com/0geIQtg.png" /></p>
+</section><section id="exporting-is-dangerous" class="slide level2">
+<h2>Exporting is dangerous!</h2>
+<ul>
+<li>You create a new version (a branch, so to say)</li>
+<li>When the file changes you need to repeat the export
+<ul>
+<li>Will you remember?</li>
+</ul></li>
+<li>Are all exports done identically?
+<ul>
+<li>Export in ELAN has quite many boxes to tick</li>
+</ul></li>
+<li>Export cannot contain data that was not already in the ELAN file</li>
+<li>It takes lots of time to export tens or hundreds of files</li>
+</ul>
+</section><section class="slide level2">
+
+</section></section>
+<section><section id="thank-you" class="titleslide slide level1"><h1>Thank you!</h1></section><section id="up-next-our-test-corpus-parsing-elan-file" class="slide level2">
+<h2>Up next: Our test corpus &amp; Parsing ELAN file</h2>
+</section></section>
+    </div>
+  </div>
+
+  <script src="lecture-1_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="lecture-1_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

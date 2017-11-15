@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="lecture-3_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="lecture-3_files/reveal.js-3.3.0.1/css/theme/white.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="custom.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section><section id="how-does-elan-work" class="titleslide slide level1"><h1>How does ELAN work?</h1></section><section id="basically-it" class="slide level2">
+<h2>Basically it …</h2>
+<ul>
+<li>Saves things into XML file</li>
+<li>Saves something when you press save</li>
+<li>Finishes some things when exiting program</li>
+<li>pfsx files contain
+<ul>
+<li>View settings</li>
+<li>Last opening location</li>
+</ul></li>
+<li>Does some validation
+<ul>
+<li>One when opening the file</li>
+<li>One with Multiple files search</li>
+</ul></li>
+<li>Opening file in ELAN and touching something has consequence of XML being pretty printed</li>
+</ul>
+</section><section id="later-validation-more-strickt" class="slide level2">
+<h2>Later validation more strickt</h2>
+</section><section id="section" class="slide level2" data-background="https://i.imgur.com/SNqdMH5.png" data-background-size="75%">
+<h2></h2>
+</section><section id="how-is-elan-file-structured" class="slide level2">
+<h2>How is ELAN file structured?</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_xml</span>(<span class="st">&#39;../adv_elan_draft/notebooks/test.eaf&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xml_structure</span>()</code></pre></div>
+<pre><code>## &lt;ANNOTATION_DOCUMENT [AUTHOR, DATE, FORMAT, VERSION, noNamespaceSchemaLocation, xmlns:xsi]&gt;
+##   &lt;HEADER [MEDIA_FILE, TIME_UNITS]&gt;
+##     &lt;MEDIA_DESCRIPTOR [MEDIA_URL, MIME_TYPE, RELATIVE_MEDIA_URL]&gt;
+##     &lt;PROPERTY [NAME]&gt;
+##       {text}
+##     &lt;PROPERTY [NAME]&gt;
+##       {text}
+##   &lt;TIME_ORDER&gt;
+##     &lt;TIME_SLOT [TIME_SLOT_ID, TIME_VALUE]&gt;
+##     &lt;TIME_SLOT [TIME_SLOT_ID, TIME_VALUE]&gt;
+##     &lt;TIME_SLOT [TIME_SLOT_ID, TIME_VALUE]&gt;
+##     &lt;TIME_SLOT [TIME_SLOT_ID, TIME_VALUE]&gt;
+##     &lt;TIME_SLOT [TIME_SLOT_ID, TIME_VALUE]&gt;
+##     &lt;TIME_SLOT [TIME_SLOT_ID, TIME_VALUE]&gt;
+##     &lt;TIME_SLOT [TIME_SLOT_ID, TIME_VALUE]&gt;
+##     &lt;TIME_SLOT [TIME_SLOT_ID, TIME_VALUE]&gt;
+##   &lt;TIER [LINGUISTIC_TYPE_REF, TIER_ID]&gt;
+##     &lt;ANNOTATION&gt;
+##       &lt;ALIGNABLE_ANNOTATION [ANNOTATION_ID, TIME_SLOT_REF1, TIME_SLOT_REF2]&gt;
+##         &lt;ANNOTATION_VALUE&gt;
+##           {text}
+##     &lt;ANNOTATION&gt;
+##       &lt;ALIGNABLE_ANNOTATION [ANNOTATION_ID, TIME_SLOT_REF1, TIME_SLOT_REF2]&gt;
+##         &lt;ANNOTATION_VALUE&gt;
+##           {text}
+##   &lt;TIER [LINGUISTIC_TYPE_REF, PARENT_REF, PARTICIPANT, TIER_ID]&gt;
+##     &lt;ANNOTATION&gt;
+##       &lt;REF_ANNOTATION [ANNOTATION_ID, ANNOTATION_REF]&gt;
+##         &lt;ANNOTATION_VALUE&gt;
+##           {text}
+##     &lt;ANNOTATION&gt;
+##       &lt;REF_ANNOTATION [ANNOTATION_ID, ANNOTATION_REF]&gt;
+##         &lt;ANNOTATION_VALUE&gt;
+##           {text}
+##   &lt;TIER [LINGUISTIC_TYPE_REF, PARTICIPANT, TIER_ID]&gt;
+##     &lt;ANNOTATION&gt;
+##       &lt;ALIGNABLE_ANNOTATION [ANNOTATION_ID, TIME_SLOT_REF1, TIME_SLOT_REF2]&gt;
+##         &lt;ANNOTATION_VALUE&gt;
+##           {text}
+##     &lt;ANNOTATION&gt;
+##       &lt;ALIGNABLE_ANNOTATION [ANNOTATION_ID, TIME_SLOT_REF1, TIME_SLOT_REF2]&gt;
+##         &lt;ANNOTATION_VALUE&gt;
+##           {text}
+##   &lt;TIER [LINGUISTIC_TYPE_REF, PARENT_REF, PARTICIPANT, TIER_ID]&gt;
+##     &lt;ANNOTATION&gt;
+##       &lt;REF_ANNOTATION [ANNOTATION_ID, ANNOTATION_REF]&gt;
+##         &lt;ANNOTATION_VALUE&gt;
+##           {text}
+##     &lt;ANNOTATION&gt;
+##       &lt;REF_ANNOTATION [ANNOTATION_ID, ANNOTATION_REF]&gt;
+##         &lt;ANNOTATION_VALUE&gt;
+##           {text}
+##   &lt;LINGUISTIC_TYPE [GRAPHIC_REFERENCES, LINGUISTIC_TYPE_ID, TIME_ALIGNABLE]&gt;
+##   &lt;LINGUISTIC_TYPE [CONSTRAINTS, GRAPHIC_REFERENCES, LINGUISTIC_TYPE_ID, TIME_ALIGNABLE]&gt;
+##   &lt;LINGUISTIC_TYPE [CONSTRAINTS, GRAPHIC_REFERENCES, LINGUISTIC_TYPE_ID, TIME_ALIGNABLE]&gt;
+##   &lt;CONSTRAINT [DESCRIPTION, STEREOTYPE]&gt;
+##   &lt;CONSTRAINT [DESCRIPTION, STEREOTYPE]&gt;
+##   &lt;CONSTRAINT [DESCRIPTION, STEREOTYPE]&gt;
+##   &lt;CONSTRAINT [DESCRIPTION, STEREOTYPE]&gt;</code></pre>
+</section><section id="what-we-want-from-it" class="slide level2">
+<h2>What we want from it?</h2>
+<ul>
+<li>Participant, session name, tier content, time codes</li>
+<li>Logical combination of the above</li>
+<li>Good test for internal logic of an ELAN tier structure!</li>
+</ul>
+</section><section id="example-file" class="slide level2">
+<h2>Example file</h2>
+</section><section id="section-1" class="slide level2" data-background="https://i.imgur.com/CIVMcYg.png" data-background-size="75%">
+<h2></h2>
+</section><section id="where-are-the-annotations" class="slide level2">
+<h2>Where are the annotations?</h2>
+<ul>
+<li>On individual tiers, for each speaker on their own structure</li>
+<li>The relations are stored within tier ID’s</li>
+<li>But not if you use included in as linguistic type!</li>
+</ul>
+</section><section id="section-2" class="slide level2" data-background="https://i.imgur.com/mk4o51D.png" data-background-size="75%">
+<h2></h2>
+</section><section id="section-3" class="slide level2" data-background="https://i.imgur.com/oQZh2jI.png" data-background-size="75%">
+<h2></h2>
+</section><section id="where-are-the-participants" class="slide level2">
+<h2>Where are the participants?</h2>
+</section><section id="section-4" class="slide level2" data-background="https://i.imgur.com/SkV4zJS.png" data-background-size="75%">
+<h2></h2>
+</section><section id="section-5" class="slide level2" data-background="https://i.imgur.com/6L86tFg.png?1" data-background-size="75%">
+<h2></h2>
+</section><section id="and-time-codes" class="slide level2">
+<h2>And time codes?</h2>
+</section><section id="section-6" class="slide level2" data-background="https://imgur.com/WvDRTz6.png" data-background-size="65%">
+<h2></h2>
+</section><section id="notice-with-time-codes" class="slide level2">
+<h2>Notice with time codes…</h2>
+<ul>
+<li>Time codes are just listed, annotations tell what are starts and ends</li>
+<li>But I think it uses one time slot only once?</li>
+<li>Times are in milliseconds</li>
+</ul>
+</section><section id="what-does-this-mean" class="slide level2">
+<h2>What does this mean?</h2>
+<ul>
+<li>Parsing ELAN file content demands walking through the logic in tier structure</li>
+<li>At times there is little logic :(</li>
+<li>However …</li>
+</ul>
+</section><section id="section-7" class="slide level2">
+<h2></h2>
+<h3 id="bad-structure">bad structure</h3>
+<h3 id="always-wins">always wins</h3>
+<h3 id="inconsistent-structure">inconsistent structure</h3>
+</section></section>
+<section><section id="parsing-elan-file-to-r" class="titleslide slide level1"><h1>Parsing ELAN file to R</h1></section><section id="section-8" class="slide level2">
+<h2></h2>
+<ul>
+<li>In earlier example we used read_eaf() function</li>
+<li>Nice, but demands quite specific structure
+<ul>
+<li>Although customizable</li>
+</ul></li>
+<li>There are also functions read_tier() and read_timeslot()</li>
+</ul>
+<style type="text/css">
+
+</style>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(kableExtra)
+<span class="kw">library</span>(FRelan)
+<span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> <span class="st">&#39;~/github/test-corpus/kpv_izva20140330-1-fragment.eaf&#39;</span>, 
+          <span class="dt">linguistic_type =</span> <span class="st">&#39;wordT&#39;</span>)</code></pre></div>
+<pre><code>## # A tibble: 95 x 8
+##    content annot_id ref_id participant         tier_id  type time_slot_1
+##      &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;
+##  1      Ме     a124     a6  MVF-F-1984 word@MVF-F-1984 wordT        &lt;NA&gt;
+##  2       ,     a125     a6  MVF-F-1984 word@MVF-F-1984 wordT        &lt;NA&gt;
+##  3 кӧнечнэ     a126     a6  MVF-F-1984 word@MVF-F-1984 wordT        &lt;NA&gt;
+##  4      же     a127     a6  MVF-F-1984 word@MVF-F-1984 wordT        &lt;NA&gt;
+##  5       ,     a128     a6  MVF-F-1984 word@MVF-F-1984 wordT        &lt;NA&gt;
+##  6    вӧлі     a129     a6  MVF-F-1984 word@MVF-F-1984 wordT        &lt;NA&gt;
+##  7     кык     a130     a6  MVF-F-1984 word@MVF-F-1984 wordT        &lt;NA&gt;
+##  8     лун     a131     a6  MVF-F-1984 word@MVF-F-1984 wordT        &lt;NA&gt;
+##  9       в     a132     a6  MVF-F-1984 word@MVF-F-1984 wordT        &lt;NA&gt;
+## 10    шоке     a133     a6  MVF-F-1984 word@MVF-F-1984 wordT        &lt;NA&gt;
+## # ... with 85 more rows, and 1 more variables: time_slot_2 &lt;chr&gt;</code></pre>
+</section><section id="section-9" class="slide level2">
+<h2></h2>
+<ul>
+<li>The output we get is directly from the ELAN XML file</li>
+<li>Let’s look into some other types of tier</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> <span class="st">&#39;~/github/test-corpus/kpv_izva20140330-1-fragment.eaf&#39;</span>, 
+          <span class="dt">linguistic_type =</span> <span class="st">&#39;refT&#39;</span>)</code></pre></div>
+<pre><code>## # A tibble: 5 x 8
+##                    content annot_id ref_id participant        tier_id
+##                      &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;
+## 1 kpv_izva20140330-1-b-097       a1   &lt;NA&gt;  MVF-F-1984 ref@MVF-F-1984
+## 2 kpv_izva20140330-1-b-098       a2   &lt;NA&gt;  MVF-F-1984 ref@MVF-F-1984
+## 3 kpv_izva20140330-1-b-099       a3   &lt;NA&gt;  MVF-F-1984 ref@MVF-F-1984
+## 4 kpv_izva20140330-1-b-100       a4   &lt;NA&gt;  MVF-F-1984 ref@MVF-F-1984
+## 5 kpv_izva20140330-1-b-101       a5   &lt;NA&gt;  MVF-F-1984 ref@MVF-F-1984
+## # ... with 3 more variables: type &lt;chr&gt;, time_slot_1 &lt;chr&gt;,
+## #   time_slot_2 &lt;chr&gt;</code></pre>
+</section><section id="whats-going-on" class="slide level2">
+<h2>What’s going on?</h2>
+<ul>
+<li>Whatever the content, it gets returned as “content”</li>
+<li>If there are time slot values, those are picked</li>
+<li>Participant and tier id are picked as well</li>
+<li>We also get annotation id and reference id
+<ul>
+<li>But as we understand, one tiers id is anothers reference</li>
+</ul></li>
+</ul>
+</section><section id="section-10" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path_to_file =<span class="st"> &#39;~/github/test-corpus/kpv_udo20120330SazinaJS-encounter.eaf&#39;</span>
+
+ref &lt;-<span class="st"> </span>FRelan<span class="op">::</span><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> path_to_file, <span class="dt">linguistic_type =</span> <span class="st">&quot;refT&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(content, annot_id, participant, time_slot_<span class="dv">1</span>, time_slot_<span class="dv">2</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">ref =</span> content) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">ref_id =</span> annot_id)
+
+orth &lt;-<span class="st"> </span>FRelan<span class="op">::</span><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> path_to_file, <span class="dt">linguistic_type =</span> <span class="st">&quot;orthT&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(content, annot_id, ref_id, participant) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">orth =</span> content) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">orth_id =</span> annot_id) <span class="co"># %&gt;%</span>
+  <span class="co"># dplyr::rename(ref_id = ref_id)</span>
+
+token &lt;-<span class="st"> </span>FRelan<span class="op">::</span><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> path_to_file, <span class="dt">linguistic_type =</span> <span class="st">&quot;wordT&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(content, annot_id, ref_id, participant) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">token =</span> content) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">token_id =</span> annot_id) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">orth_id =</span> ref_id)
+
+lemma &lt;-<span class="st"> </span>FRelan<span class="op">::</span><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> path_to_file, <span class="dt">linguistic_type =</span> <span class="st">&quot;lemmaT&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(content, annot_id, ref_id, participant) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">lemma =</span> content) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">lemma_id =</span> annot_id) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">token_id =</span> ref_id)
+
+pos &lt;-<span class="st"> </span>FRelan<span class="op">::</span><span class="kw">read_tier</span>(<span class="dt">eaf_file =</span> path_to_file, <span class="dt">linguistic_type =</span> <span class="st">&quot;posT&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(content, ref_id, participant) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">pos =</span> content) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">lemma_id =</span> ref_id)</code></pre></div>
+</section><section id="section-11" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">elan &lt;-<span class="st"> </span><span class="kw">left_join</span>(ref, orth) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(token) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(lemma) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(pos) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(token, lemma, pos, time_slot_<span class="dv">1</span>, time_slot_<span class="dv">2</span>, <span class="kw">everything</span>(), <span class="op">-</span><span class="kw">ends_with</span>(<span class="st">&#39;_id&#39;</span>))
+  
+time_slots &lt;-<span class="st"> </span>FRelan<span class="op">::</span><span class="kw">read_timeslots</span>(path_to_file)
+
+corpus &lt;-<span class="st"> </span>elan <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(time_slots <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">time_slot_1 =</span> time_slot_id)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">time_start =</span> time_value) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(time_slots <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">time_slot_2 =</span> time_slot_id)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">time_end =</span> time_value) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(token, lemma, pos, participant, time_start, time_end, <span class="kw">everything</span>(), <span class="op">-</span><span class="kw">starts_with</span>(<span class="st">&#39;time_slot_&#39;</span>))</code></pre></div>
+</section><section id="section-12" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corpus</code></pre></div>
+<pre><code>## # A tibble: 240 x 8
+##    token lemma   pos participant time_start time_end
+##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1     И     и    CC  NTP-M-1986        170     3730
+##  2  эшшӧ  эшшӧ     _  NTP-M-1986        170     3730
+##  3  ӧтик  ӧтик   Num  NTP-M-1986        170     3730
+##  4   тор   тор     N  NTP-M-1986        170     3730
+##  5     ,     ,   CLB  NTP-M-1986        170     3730
+##  6   мый   мый    CS  NTP-M-1986        170     3730
+##  7 тэнад    тэ  Pron  NTP-M-1986        170     3730
+##  8     ,     ,   CLB  NTP-M-1986        170     3730
+##  9 тэныд    тэ  Pron  NTP-M-1986        170     3730
+## 10   мам   мам     N  NTP-M-1986        170     3730
+## # ... with 230 more rows, and 2 more variables: ref &lt;chr&gt;, orth &lt;chr&gt;</code></pre>
+<pre><code>read_custom_eaf &lt;- function(path_to_file){
+  all the code from above...
+}
+
+read_custom_eaf(path_to_file = &#39;path/to/my_file.eaf&#39;)
+</code></pre>
+</section><section id="what-can-go-wrong" class="slide level2">
+<h2>What can go wrong?</h2>
+<ul>
+<li>Tier doesn’t exist</li>
+<li>Tier has a different name</li>
+<li>Tier types are different</li>
+<li>XML is malformed</li>
+<li>…</li>
+</ul>
+</section></section>
+<section><section id="parsing-actual-corpus" class="titleslide slide level1"><h1>Parsing actual corpus</h1></section><section id="looping-through-files" class="slide level2">
+<h2>Looping through files</h2>
+<ul>
+<li>In R there are plenty of ways not to write a for-loop</li>
+<li>Idea is always same: take multiple items of something and do something for every unit</li>
+<li>All paths to the files in corpus is a good starting point</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">&#39;~/github/test-corpus&#39;</span>, <span class="dt">pattern =</span> <span class="st">&#39;.eaf$&#39;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [1] &quot;/Users/niko/github/test-corpus/kpv_izva20140330-1-fragment.eaf&quot;      
+## [2] &quot;/Users/niko/github/test-corpus/kpv_izva20140404IgusevJA-fragment.eaf&quot;
+## [3] &quot;/Users/niko/github/test-corpus/kpv_udo20120330SazinaJS-encounter.eaf&quot;</code></pre>
+<p>Or:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">&#39;~/github/test-corpus&#39;</span>, <span class="dt">pattern =</span> <span class="st">&#39;.+izva.+eaf$&#39;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [1] &quot;/Users/niko/github/test-corpus/kpv_izva20140330-1-fragment.eaf&quot;      
+## [2] &quot;/Users/niko/github/test-corpus/kpv_izva20140404IgusevJA-fragment.eaf&quot;</code></pre>
+</section><section id="section-13" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">elan_files &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">&#39;~/github/test-corpus&#39;</span>, <span class="dt">pattern =</span> <span class="st">&#39;.eaf$&#39;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)
+elan_files <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(read_custom_eaf)</code></pre></div>
+<pre><code>## [[1]]
+## # A tibble: 95 x 9
+##      token lemma   pos participant time_start time_end
+##      &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt;       &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1      Ме    NA    NA  MVF-F-1984          0     6086
+##  2       ,    NA    NA  MVF-F-1984          0     6086
+##  3 кӧнечнэ    NA    NA  MVF-F-1984          0     6086
+##  4      же    NA    NA  MVF-F-1984          0     6086
+##  5       ,    NA    NA  MVF-F-1984          0     6086
+##  6    вӧлі    NA    NA  MVF-F-1984          0     6086
+##  7     кык    NA    NA  MVF-F-1984          0     6086
+##  8     лун    NA    NA  MVF-F-1984          0     6086
+##  9       в    NA    NA  MVF-F-1984          0     6086
+## 10    шоке    NA    NA  MVF-F-1984          0     6086
+## # ... with 85 more rows, and 3 more variables: ref &lt;chr&gt;, orth &lt;chr&gt;,
+## #   session_name &lt;chr&gt;
+## 
+## [[2]]
+## # A tibble: 279 x 9
+##      token lemma   pos participant time_start time_end
+##      &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt;       &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1  Значит    NA    NA  JAI-M-1939          0     6196
+##  2       ,    NA    NA  JAI-M-1939          0     6196
+##  3   турун    NA    NA  JAI-M-1939          0     6196
+##  4      ми    NA    NA  JAI-M-1939          0     6196
+##  5  пуктам    NA    NA  JAI-M-1939          0     6196
+##  6    вӧлі    NA    NA  JAI-M-1939          0     6196
+##  7 Кытшыль    NA    NA  JAI-M-1939          0     6196
+##  8 коськын    NA    NA  JAI-M-1939          0     6196
+##  9       ,    NA    NA  JAI-M-1939          0     6196
+## 10   квайт    NA    NA  JAI-M-1939          0     6196
+## # ... with 269 more rows, and 3 more variables: ref &lt;chr&gt;, orth &lt;chr&gt;,
+## #   session_name &lt;chr&gt;
+## 
+## [[3]]
+## # A tibble: 240 x 9
+##    token lemma   pos participant time_start time_end
+##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1     И     и    CC  NTP-M-1986        170     3730
+##  2  эшшӧ  эшшӧ     _  NTP-M-1986        170     3730
+##  3  ӧтик  ӧтик   Num  NTP-M-1986        170     3730
+##  4   тор   тор     N  NTP-M-1986        170     3730
+##  5     ,     ,   CLB  NTP-M-1986        170     3730
+##  6   мый   мый    CS  NTP-M-1986        170     3730
+##  7 тэнад    тэ  Pron  NTP-M-1986        170     3730
+##  8     ,     ,   CLB  NTP-M-1986        170     3730
+##  9 тэныд    тэ  Pron  NTP-M-1986        170     3730
+## 10   мам   мам     N  NTP-M-1986        170     3730
+## # ... with 230 more rows, and 3 more variables: ref &lt;chr&gt;, orth &lt;chr&gt;,
+## #   session_name &lt;chr&gt;</code></pre>
+<ul>
+<li>This list format is useful for testing!</li>
+</ul>
+</section><section id="section-14" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">elan_corpus &lt;-<span class="st"> </span>elan_files <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(read_custom_eaf) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>()
+meta &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="st">&#39;~/github/test-corpus/&#39;</span>, <span class="dt">pattern =</span> <span class="st">&#39;cmdi$&#39;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">map</span>(read_cmdi) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">bind_rows</span>()
+
+test_corpus &lt;-<span class="st"> </span><span class="kw">left_join</span>(elan_corpus, meta) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(<span class="kw">read_csv</span>(<span class="st">&#39;coordinates.csv&#39;</span>))</code></pre></div>
+</section><section id="section-15" class="slide level2">
+<h2></h2>
+<ul>
+<li>I can recommend trying View function in RStudio</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_rds</span>(test_corpus, <span class="st">&#39;test_corpus.rds&#39;</span>)
+test_corpus &lt;-<span class="st"> </span><span class="kw">read_rds</span>(<span class="st">&#39;test_corpus.rds&#39;</span>)
+<span class="kw">source</span>(<span class="st">&#39;parse_corpus.R&#39;</span>)
+test_corpus &lt;-<span class="st"> </span><span class="kw">monster_function_that_does_everything</span>()
+test_corpus <span class="op">%&gt;%</span><span class="st"> </span>View</code></pre></div>
+</section><section id="section-16" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_corpus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(participant)</code></pre></div>
+<pre><code>## # A tibble: 4 x 2
+##   participant     n
+##         &lt;chr&gt; &lt;int&gt;
+## 1  JAI-M-1939   275
+## 2  JSS-F-1988   197
+## 3  MVF-F-1984    95
+## 4  NTP-M-1986    47</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_corpus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(session_location)</code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##    session_location     n
+##               &lt;chr&gt; &lt;int&gt;
+## 1     Diyur, Russia    95
+## 2 Helsinki, Finland   240
+## 3 Syktyvkar, Russia   279</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_corpus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(year_birth)</code></pre></div>
+<pre><code>## # A tibble: 4 x 2
+##   year_birth     n
+##        &lt;chr&gt; &lt;int&gt;
+## 1       1939   275
+## 2       1984    95
+## 3       1986    47
+## 4       1988   197</code></pre>
+</section><section id="next-more-advanced-example-or-trying-this-further" class="slide level2">
+<h2>Next: <strong>More advanced example</strong> or <strong>Trying this further</strong>?</h2>
+</section></section>
+    </div>
+  </div>
+
+  <script src="lecture-3_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="lecture-3_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
