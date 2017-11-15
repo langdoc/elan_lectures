@@ -1,0 +1,331 @@
+---
+output: 
+  revealjs::revealjs_presentation:
+    theme: white
+    transition: none
+    incremental: false
+    css: custom.css
+    self_contained: no
+    center: true
+    md_extensions: +fenced_code_attributes
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.cap = "")
+```
+
+## Getting our test corpus into R {data-background="white"}
+
+### Niko Partanen
+
+<img src="images/Rlogo" alt="" width="100px" />
+
+
+# Test corpus
+
+## What is there?
+
+- Tiny collection of Komi recordings
+- Can be downloaded here
+- Fragmentary recordings, but quite realistic examples
+- Metadata in CMDI files
+
+---------------------------------------------------------------------
+
+## Structure
+
+- Follows the Freiburg standards in tier structure and naming
+    - Matches closely Kola Saami and Pite Saami corpora
+
+```
+- reference tier
+    \- transcription tier
+        \- token tier
+           \- lemma
+               \- pos
+    \- translation tier
+```
+
+- ELAN corpora are very individualistic
+    - Nothing works out of the box, but we will move into customization after lunch
+
+---------------------------------------------------------------------
+
+## FRelan
+
+- An R package that contains many functions usable with Freiburg standard
+- Some parts probably adaptable elsewhere
+
+```
+library(devtools)
+install_github('langdoc/FRelan')
+```
+
+- Later we will focus into `read_tier()` function
+- After that individual parsing method can be baked into a new function
+
+---------------------------------------------------------------------
+
+## Reading files into R
+
+```{r}
+
+library(tidyverse)
+library(xml2)
+
+corpus <- dir('../adv_elan_draft/corpus', pattern = 'eaf$', full.names = TRUE) %>%
+  map(FRelan::read_eaf) %>%
+  bind_rows() %>%
+  select(token, participant, session_name, time_start, time_end, everything())
+
+corpus
+```
+
+---------------------------------------------------------------------
+
+## Working further
+
+- In this point it is easy to filter and examine the result as any data frame
+- I have described the basic 'verbs' [here]()
+
+---------------------------------------------------------------------
+
+```{r}
+corpus %>%
+  filter(token == 'вӧлі')
+```
+
+
+---------------------------------------------------------------------
+
+```{r}
+corpus %>%
+  filter(lag(token) == 'татшӧм' & token == 'вӧлі') %>%
+  select(token, utterance, everything())
+```
+
+---------------------------------------------------------------------
+
+- lag() and lead() give the previous and next value
+- With POS-tagged corpus, for example, one can easily search in manner:
+
+```
+corpus %>% filter(lag(pos) == 'Pron' & token == 'V')
+```
+
+- To find all pronoun + verb bigrams, for example.
+
+---------------------------------------------------------------------
+
+## Housekeeping
+
+- It can also be useful to look for inconsistencies
+- There should only be characters that belong to Komi writing system
+    - One approach could be to filter out everything that is not punctuation or Cyrillic!
+
+```{r}
+corpus %>% filter(! str_detect(token, '[[:punct:]\\p{Cyrillic}]'))
+```
+
+---------------------------------------------------------------------
+
+## Opening file
+
+```{r, eval=FALSE}
+
+corpus %>% filter(! str_detect(token, '[[:punct:]\\p{Cyrillic}]')) %>%
+  FRelan::open_eaf(1)
+
+```
+
+---------------------------------------------------------------------
+
+## {data-background="https://i.imgur.com/F7Y9h7h.png"}
+
+---------------------------------------------------------------------
+
+- To break this down:
+    - a group: `[ ]`
+    - punctuation: `[[:punct:]]`
+    - Cyrillic Unicode block: `\\p{Cyrillic}`
+
+- This could almost be done in ELAN as well
+
+# Metadata
+
+## What about it?
+
+- Often discussed in archiving context
+- Target of intensive standardization
+    - … with very inconclusive results
+- Comes in variety of formats
+- Cannot be used in ELAN searches
+
+## cmdi {data-background="https://i.imgur.com/8EwOQZt.png"}
+
+## Parsing CMDI to R
+
+```{r}
+
+library(glue)
+
+read_cmdi <- function(cmdi_file){ # this defines the function
+  read_xml(cmdi_file) %>% # reads the xml
+  xml_find_all('//cmd:Actor') %>% # finds all Actor nodes
+  map(~ tibble(participant = .x %>% xml_find_first('./cmd:Code') %>% xml_text,
+               session_name = .x %>% xml_find_first('../../cmd:Name') %>% xml_text,
+               year_birth = .x %>% xml_find_first('./cmd:BirthDate') %>% xml_text,
+               year_rec = .x %>% xml_find_first('../../cmd:Date') %>% xml_text,
+               role = .x %>% xml_find_first('./cmd:Role') %>% xml_text,
+               sex = .x %>% xml_find_first('./cmd:Sex') %>% xml_text,
+               session_address = .x %>% xml_find_first('../../cmd:Location/cmd:Address') %>% xml_text,
+               session_country = .x %>% xml_find_first('../../cmd:Location/cmd:Country') %>% xml_text,
+               session_location = paste0(session_address, ', ', session_country),
+               education = .x %>% xml_find_first('./cmd:Education') %>% xml_text,
+               name_full = .x %>% xml_find_first('./cmd:FullName') %>% xml_text)) %>% 
+    bind_rows() # After everything is collected into tibble/dataframe,
+                # we can just bind the rows together
+}
+
+```
+
+---------------------------------------------------------------------
+
+## Applying the function
+
+In this point we can apply the function we just wrote into all cmdi files we have.
+
+```{r}
+metadata <- dir('../adv_elan_draft/corpus', 'cmdi$', full.names = TRUE) %>%
+  map(read_cmdi) %>% bind_rows()
+metadata
+```
+
+---------------------------------------------------------------------
+
+```{r}
+corpus_full <- left_join(corpus, metadata)
+corpus_full
+```
+
+---------------------------------------------------------------------
+
+```{r geocoding}
+
+# coordinates <- corpus_full %>%
+#   distinct(session_location) %>%
+#   as.data.frame() %>%
+#   ggmap::mutate_geocode(session_location) %>%
+#   as_tibble()
+
+# write_csv(coordinates, 'coordinates.csv')
+
+coordinates <- read_csv('coordinates.csv', col_types = 'cdd')
+
+corpus_geo <- left_join(corpus_full, coordinates) %>% 
+  rename(lon_session = lon, 
+         lat_session = lat)
+
+```
+
+---------------------------------------------------------------------
+
+```{r leaflet_1}
+library(leaflet)
+library(htmlwidgets)
+library(widgetframe)
+
+map <- leaflet(data = corpus_geo %>% add_count(session_name)) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(lng = ~lon_session,
+             lat = ~lat_session, radius = ~log(n),
+             popup = ~glue('Recording place: {session_location}</br>
+                           Number of tokens: {n}'))
+
+frameWidget(map)
+```
+
+`r map`
+
+---------------------------------------------------------------------
+
+```{r kpv_prep, echo = FALSE, warning=FALSE, message=FALSE}
+
+kpv_eaf <- read_rds('~/github/adv_elan_draft/corpus.rds')
+source('/Volumes/langdoc/langs/kpv/FM_meta.R')
+
+kpv <- left_join(kpv_eaf, meta) %>% add_count(session_name) %>%
+  rename(token_count = n)
+
+# View(kpv)
+
+kpv <- kpv %>% 
+  distinct(session_name, filename, lon_rec, lat_rec, lon_birth, lat_birth, place_rec, token_count, title_eng) %>%
+  rename(lon_session = lon_rec, lat_session = lat_rec, session_location = place_rec) 
+
+```
+
+
+```{r kpv_map}
+
+kpv_map <- leaflet(data = kpv %>% filter(! is.na(lon_session))) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(lng = ~jitter(lon_session, 10),
+             lat = ~jitter(lat_session, 10),
+             popup = ~glue('{session_name}</br>
+                           {title_eng}</br>
+                           Recording place: {session_location}</br>
+                           Number of tokens: {token_count}</br>'),
+             clusterOptions = markerClusterOptions(freezeAtZoom = 5))
+
+frameWidget(kpv_map)
+```
+
+---------------------------------------------------------------------
+
+```{r kpv_birth, eval=FALSE, echo=FALSE}
+kpv_birth_map <- leaflet(data = kpv %>% filter(! is.na(lon_birth))) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(lng = ~jitter(lon_birth, 10),
+             lat = ~jitter(lat_birth, 10),
+             popup = ~glue('{session_name}</br>
+                           {title_eng}</br>
+                           Recording place: {session_location}</br>
+                           Number of tokens: {token_count}</br>'),
+             clusterOptions = markerClusterOptions(freezeAtZoom = 5))
+
+frameWidget(kpv_birth_map)
+```
+
+## What we just created?
+
+- R code generated a HTML widget
+- Plain HTML and JavaScript
+- Uses [leaflet JavaScript library](http://leafletjs.com/)
+    - Through a [leaflet R package](https://rstudio.github.io/leaflet/)
+- Conceptually doesn't differ from any content online
+    - Works everywhere
+
+## Alright, then add fancy feature {fancy feature}!
+
+## Not so fast!
+
+## Simplicity comes with drawbacks
+
+##
+
+- It is trivially easy to add features, if…
+    - They are supported
+    - Someone has added that into the R package we use
+- Anything can be added…
+    - But demands using JavaScript
+    - Needs in-depth knowledge of related libraries
+
+## Worth noting
+
+- This is not an actual application
+- There are limits of interactivity
+- But this is not a bad deal after all

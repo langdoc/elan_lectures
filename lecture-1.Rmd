@@ -1,0 +1,315 @@
+---
+output: 
+  revealjs::revealjs_presentation:
+    theme: white
+    transition: none
+    css: custom.css
+    self_contained: no
+    center: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.cap = "", cache = T, echo=FALSE)
+```
+
+## ELAN, R and Python {data-background="white"}
+### Thought on how these go together
+
+### Niko Partanen
+
+<img src="images/Rlogo" alt="" width="100px" />
+
+
+# Introduction
+
+---------------------------------------------------------------------
+
+## Who am I?
+
+- A linguist with MA in Finno-Ugristics
+- Doing my PhD (supervisor Michael Rießler)
+    - Topic: Variation in Komi dialects
+- Komi is an Uralic language
+    - Occasionally I also touch Udmurt and Karelian
+- I stay now in LATTICE laboratory in Paris
+    - Work there focuses to dependency parsing
+
+---------------------------------------------------------------------
+
+## What I am not?
+
+- A professional programmer
+- I know R rather well, Python less so
+     - I work regularly with both + bit with JavaScript
+- I genuinely like programming
+- I believe formulating our research questions programmatically is the way to go
+
+## {data-background-image="https://i.imgur.com/hH0xro2.png" data-background-size="70%"}
+
+---------------------------------------------------------------------
+
+## What is this course?
+
+- Lots of R courses dive directly into statistical analysis
+- In this workshop we stay in more shallow waters
+    - We don't go far at all
+    - But I hope this opens new directions
+
+---------------------------------------------------------------------
+
+## We will learn
+
+- Parsing ELAN files and metadata into R
+    - Adapting to your needs
+- Manipulating that data in R
+- Building some interactive workflows around R, ELAN and Praat
+- Use Python to manipulate tier structures and explore Pympi
+    - Little bit that with R as well…
+- Basic concepts for creating visualization from the data
+
+# What is ELAN?
+
+* Annotation tool developed in Nijmegen
+* [Open source](https://tla.mpi.nl/tools/tla-tools/elan/elan-old-versions) Java application
+* Used widely in language documentation projects and elsewhere
+* Main focus in utterance long annotations
+
+---------------------------------------------------------------------
+
+## ELAN corpora
+
+* Often data from endangered languages
+    - Limited resources
+    - Language technology underdeveloped
+    - NLP tools usually target larger languages
+
+
+* Data often collected in prolonged period of time
+    - Research projects spanning usually three years
+    - Not created by large number of people, but rarely by just one
+
+---------------------------------------------------------------------
+
+* Interlinearized glosses may be included
+    - Created through a round trip to FLEX or Toolbox
+    - Done manually within ELAN
+    - Time will tell what new Interlinearization Mode brings
+
+---------------------------------------------------------------------
+
+## What follows…
+
+* Typos
+* Wrongly done clicks
+* Overlaps with people working with same file
+    - Random hacks to keep things together
+* Inconsistencies between files
+* Different tier templates during years
+   - More hacks and tricks
+
+---------------------------------------------------------------------
+
+## How they are used?
+
+* Examples in grammatical descriptions, links to corpus
+
+![](https://i.imgur.com/QWqMHBa.png)
+
+![](https://i.imgur.com/bSgPfnj.png)
+
+---------------------------------------------------------------------
+
+## ELAN corpora?
+
+* Some people refuse to call their transcribed and annotated materials corpus
+* The fact that data is referred to doesn't mean that corpus contains those annotations
+    - The reference means usually **that this example exists**
+* Others must have already finished this conversation
+
+---------------------------------------------------------------------
+
+### ELAN corpus
+### = 
+### anything that is in ELAN file
+
+---------------------------------------------------------------------
+
+## What is there?
+
+- Transcriptions
+- Tokenized and/or annotated layers
+- Linked files
+- Participant ID's
+    - In tier names or `PARTICIPANT` attributes
+- Session name (?)
+- Comments and notes
+- Translations
+
+---------------------------------------------------------------------
+
+## What's the problem?
+
+- Language documentation corpora are rarely used in corpus linguistic fashion, compare:
+
+> "Finding an example of phenomena X"
+
+> "Find all instances of phenomena X, do something with those"
+
+---------------------------------------------------------------------
+
+## Why this matters?
+
+- The corpora are rarely thoroughly tested
+- It is not certain all files share the same structure and conventions
+- The questions of representativity are easily skipped
+
+---------------------------------------------------------------------
+
+# R and Python
+
+---------------------------------------------------------------------
+
+```{r  out.width = "20%"}
+knitr::include_graphics('images/Rlogo.png') 
+```
+
+```{r  out.width = "20%"}
+knitr::include_graphics('images/200px-Python.svg.png') 
+```
+
+---------------------------------------------------------------------
+
+* Programming languages
+* Active communities around them (#rstats in Twitter)
+* Data manipulation and visualization typical uses
+* R orientates toward statistics, Python more general
+* "Sort of similar" in the end of the day (my opinion)
+
+---------------------------------------------------------------------
+
+## Notes about R
+
+- R is currently going through large transformation
+- Tidyverse: collection of packages that operate consistently with one another
+- Makes R kind of an moving target at the moment
+- Opinionated, but clearly the direction to go
+- Without doubt R is getting less cumbersome
+
+---------------------------------------------------------------------
+
+## {data-background="black"}
+
+<img src="https://i.imgur.com/pyRnT7a.png" />
+
+---------------------------------------------------------------------
+
+## Notes about Python
+
+- Python module [Pympi](http://dopefishh.github.io/pympi/) is very useful to work with ELAN and Praat files
+    - Hides a bit the murky details
+    - Probably has solved many problems -- no need to reinvent the wheel
+- More generic signal processing tools
+    - [pyannote](http://pyannote.github.io/)
+- Good NLP ecosystem ([nltk](http://www.nltk.org/))
+
+---------------------------------------------------------------------
+
+## Notebooks
+
+- [RMarkdown](http://rmarkdown.rstudio.com/) and [Jupyter Notebook](http://jupyter.org/)
+- Can be run interactively in the server
+- Allows combining text, code and citations into one document
+- At least with R can also be combined into LaTeX document
+    - If you really want to go down that road!
+
+- It is also easy to generate LaTeX fragments or HTML
+
+---------------------------------------------------------------------
+
+## Why R or Python?
+
+- Easy to build data validation tools
+- Easy to automatize some tedious tasks
+- Leverages some other tools that can enrich our data
+- Good collection of HTML and PDF outputs
+- High level of [reproducibility](https://www.biorxiv.org/content/early/2016/07/29/066803)
+    - Inluding **you** in few months
+    - We will see advantages of this on the course
+- Tasks can be automatized
+    - We humans are bad in repeating tasks!
+    - More a shift in workload than total freedom
+    - But ideally more time for thinking and important tasks
+
+## How to learn more?
+
+## {data-background-iframe="http://r4ds.had.co.nz/"}
+
+## {data-background-iframe="https://adv-r.hadley.nz/"}
+
+## {data-background-iframe="http://socviz.co/"}
+
+## {data-background-iframe="https://www.degruyter.com/view/product/203826"}
+
+## {data-background-iframe="https://benjamins.com/#catalog/books/z.195/main"}
+
+## {data-background-iframe="http://www.nltk.org/"}
+
+## Please send me good Python resources!
+
+## Python's role
+
+- Lots of NLP tools work around Python
+    - Bindings to morphological analysators, [hfst]()
+    - Syntactic parsers
+- It is much more widely used than R
+- Pympi is rather mature tool already
+- If most generic parts of the workflows are implemented in Python, the potential to reuse is bigger
+- Although, if all we do is send command line calls around, who cares
+
+## Example: Tier creation
+
+Do we approach it as:
+
+    - create xml node, add attributes x, y and z, add child, add other child, blaablaablaa
+
+Or as:
+
+    - create_tier(...)
+
+## Comparison
+
+1. Works in specific use case in specific kind of files
+2. Is general, bugs can be solved together
+    - ELAN always does things same way, so we must to be able to replicate exactly that
+
+## My point:
+
+### Ideally more general than atomistic solutions
+
+## Next: About perils of exporting
+
+# Evils of exporting
+
+---------------------------------------------------------------------
+
+## ELAN export as part of the workflow
+
+![](https://i.imgur.com/0geIQtg.png)
+
+---------------------------------------------------------------------
+
+## Exporting is dangerous!
+
+- You create a new version (a branch, so to say)
+- When the file changes you need to repeat the export
+    - Will you remember?
+- Are all exports done identically?
+    - Export in ELAN has quite many boxes to tick
+- Export cannot contain data that was not already in the ELAN file
+- It takes lots of time to export tens or hundreds of files
+
+---------------------------------------------------------------------
+
+# Thank you!
+
+## Up next: Our test corpus & Parsing ELAN file

@@ -1,0 +1,345 @@
+---
+output: 
+  revealjs::revealjs_presentation:
+    theme: white
+    transition: none
+    css: custom.css
+    self_contained: no
+    center: true
+    md_extensions: +fenced_code_attributes
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.cap = "")
+
+library(tidyverse)
+library(xml2)
+```
+
+# How does ELAN work?
+
+## Basically it …
+
+- Saves things into XML file
+- Saves something when you press save
+- Finishes some things when exiting program
+- pfsx files contain
+    - View settings
+    - Last opening location
+- Does some validation
+    - One when opening the file
+    - One with Multiple files search
+- Opening file in ELAN and touching something has consequence of XML being pretty printed
+
+## Later validation more strickt
+
+## {data-background="https://i.imgur.com/SNqdMH5.png" data-background-size="75%"}
+
+## How is ELAN file structured?
+
+```{r}
+read_xml('../adv_elan_draft/notebooks/test.eaf') %>% xml_structure()
+```
+
+## What we want from it?
+
+- Participant, session name, tier content, time codes
+- Logical combination of the above
+- Good test for internal logic of an ELAN tier structure!
+
+## Example file
+
+## {data-background="https://i.imgur.com/CIVMcYg.png" data-background-size="75%"}
+
+## Where are the annotations?
+
+- On individual tiers, for each speaker on their own structure
+- The relations are stored within tier ID's
+- But not if you use included in as linguistic type!
+
+## {data-background="https://i.imgur.com/mk4o51D.png" data-background-size="75%"}
+
+## {data-background="https://i.imgur.com/oQZh2jI.png" data-background-size="75%"}
+
+## Where are the participants?
+
+## {data-background="https://i.imgur.com/SkV4zJS.png" data-background-size="75%"}
+
+## {data-background="https://i.imgur.com/6L86tFg.png?1" data-background-size="75%"}
+
+## And time codes?
+
+## {data-background="https://imgur.com/WvDRTz6.png" data-background-size="65%"}
+
+## Notice with time codes…
+
+- Time codes are just listed, annotations tell what are starts and ends
+- But I think it uses one time slot only once?
+- Times are in milliseconds
+
+## What does this mean?
+
+- Parsing ELAN file content demands walking through the logic in tier structure
+- At times there is little logic :(
+- However …
+
+##
+
+### bad structure
+### always wins
+### inconsistent structure
+
+# Parsing ELAN file to R
+
+##
+
+- In earlier example we used read_eaf() function
+- Nice, but demands quite specific structure
+    - Although customizable
+- There are also functions read_tier() and read_timeslot()
+
+```{css echo=FALSE}
+
+```
+
+
+```{r}
+library(kableExtra)
+library(FRelan)
+read_tier(eaf_file = '~/github/test-corpus/kpv_izva20140330-1-fragment.eaf', 
+          linguistic_type = 'wordT')
+
+```
+
+
+##
+
+- The output we get is directly from the ELAN XML file
+- Let's look into some other types of tier
+
+```{r}
+read_tier(eaf_file = '~/github/test-corpus/kpv_izva20140330-1-fragment.eaf', 
+          linguistic_type = 'refT')
+```
+
+## What's going on?
+
+- Whatever the content, it gets returned as "content"
+- If there are time slot values, those are picked
+- Participant and tier id are picked as well
+- We also get annotation id and reference id
+    - But as we understand, one tiers id is anothers reference
+
+## 
+
+```{r}
+
+path_to_file = '~/github/test-corpus/kpv_udo20120330SazinaJS-encounter.eaf'
+
+ref <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "refT") %>%
+  dplyr::select(content, annot_id, participant, time_slot_1, time_slot_2) %>%
+  dplyr::rename(ref = content) %>%
+  dplyr::rename(ref_id = annot_id)
+
+orth <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "orthT") %>%
+  dplyr::select(content, annot_id, ref_id, participant) %>%
+  dplyr::rename(orth = content) %>%
+  dplyr::rename(orth_id = annot_id) # %>%
+  # dplyr::rename(ref_id = ref_id)
+
+token <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "wordT") %>%
+  dplyr::select(content, annot_id, ref_id, participant) %>%
+  dplyr::rename(token = content) %>%
+  dplyr::rename(token_id = annot_id) %>%
+  dplyr::rename(orth_id = ref_id)
+
+lemma <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "lemmaT") %>%
+  dplyr::select(content, annot_id, ref_id, participant) %>%
+  dplyr::rename(lemma = content) %>%
+  dplyr::rename(lemma_id = annot_id) %>%
+  dplyr::rename(token_id = ref_id)
+
+pos <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "posT") %>%
+  dplyr::select(content, ref_id, participant) %>%
+  dplyr::rename(pos = content) %>%
+  dplyr::rename(lemma_id = ref_id)
+
+```
+
+##
+
+```{r}
+elan <- left_join(ref, orth) %>% 
+  left_join(token) %>% 
+  left_join(lemma) %>% 
+  left_join(pos) %>%
+  select(token, lemma, pos, time_slot_1, time_slot_2, everything(), -ends_with('_id'))
+  
+time_slots <- FRelan::read_timeslots(path_to_file)
+
+corpus <- elan %>% 
+  left_join(time_slots %>% rename(time_slot_1 = time_slot_id)) %>%
+  rename(time_start = time_value) %>%
+  left_join(time_slots %>% rename(time_slot_2 = time_slot_id)) %>%
+  rename(time_end = time_value) %>%
+  select(token, lemma, pos, participant, time_start, time_end, everything(), -starts_with('time_slot_'))
+```
+
+##
+
+```{r}
+corpus
+```
+
+```
+read_custom_eaf <- function(path_to_file){
+  all the code from above...
+}
+
+read_custom_eaf(path_to_file = 'path/to/my_file.eaf')
+
+```
+
+
+## What can go wrong?
+
+- Tier doesn't exist
+- Tier has a different name
+- Tier types are different
+- XML is malformed
+- …
+
+# Parsing actual corpus
+
+## Looping through files
+
+- In R there are plenty of ways not to write a for-loop
+- Idea is always same: take multiple items of something and do something for every unit
+- All paths to the files in corpus is a good starting point
+
+```{r, echo=FALSE}
+read_custom_eaf <- function(path_to_file){
+  
+  ref <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "refT") %>%
+    dplyr::select(content, annot_id, participant, time_slot_1, time_slot_2) %>%
+    dplyr::rename(ref = content) %>%
+    dplyr::rename(ref_id = annot_id)
+  
+  orth <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "orthT") %>%
+    dplyr::select(content, annot_id, ref_id, participant) %>%
+    dplyr::rename(orth = content) %>%
+    dplyr::rename(orth_id = annot_id)
+  
+  token <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "wordT") %>%
+    dplyr::select(content, annot_id, ref_id, participant) %>%
+    dplyr::rename(token = content) %>%
+    dplyr::rename(token_id = annot_id) %>%
+    dplyr::rename(orth_id = ref_id)
+
+  lemma <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "lemmaT") %>%
+    dplyr::select(content, annot_id, ref_id, participant) %>%
+    dplyr::rename(lemma = content) %>%
+    dplyr::rename(lemma_id = annot_id) %>%
+    dplyr::rename(token_id = ref_id)
+  
+  pos <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "posT") %>%
+    dplyr::select(content, ref_id, participant) %>%
+    dplyr::rename(pos = content) %>%
+    dplyr::rename(lemma_id = ref_id)
+  
+  elan <- left_join(ref, orth) %>% 
+    left_join(token) %>% 
+    left_join(lemma) %>% 
+    left_join(pos) %>%
+    select(token, lemma, pos, time_slot_1, time_slot_2, everything(), -ends_with('_id'))
+    
+  time_slots <- FRelan::read_timeslots(path_to_file)
+  
+  elan %>% left_join(time_slots %>% rename(time_slot_1 = time_slot_id)) %>%
+    rename(time_start = time_value) %>%
+    left_join(time_slots %>% rename(time_slot_2 = time_slot_id)) %>%
+    rename(time_end = time_value) %>%
+    select(token, lemma, pos, participant, time_start, time_end, everything(), -starts_with('time_slot_')) %>%
+    mutate(session_name = str_extract(path_to_file, '[^/]+(?=.eaf)'))
+
+  }
+
+```
+
+
+```{r}
+dir(path = '~/github/test-corpus', pattern = '.eaf$', full.names = TRUE)
+```
+
+Or:
+
+```{r}
+dir(path = '~/github/test-corpus', pattern = '.+izva.+eaf$', full.names = TRUE)
+```
+
+##
+
+```{r}
+elan_files <- dir(path = '~/github/test-corpus', pattern = '.eaf$', full.names = TRUE)
+elan_files %>% map(read_custom_eaf)
+```
+
+- This list format is useful for testing!
+
+##
+
+```{r, echo=FALSE}
+library(xml2)
+read_cmdi <- function(cmdi_file){ # this defines the function
+  read_xml(cmdi_file) %>% # reads the xml
+  xml_find_all('//cmd:Actor') %>% # finds all Actor nodes
+  map(~ tibble(participant = .x %>% xml_find_first('./cmd:Code') %>% xml_text,
+               session_name = .x %>% xml_find_first('../../cmd:Name') %>% xml_text,
+               year_birth = .x %>% xml_find_first('./cmd:BirthDate') %>% xml_text,
+               year_rec = .x %>% xml_find_first('../../cmd:Date') %>% xml_text,
+               role = .x %>% xml_find_first('./cmd:Role') %>% xml_text,
+               sex = .x %>% xml_find_first('./cmd:Sex') %>% xml_text,
+               session_address = .x %>% xml_find_first('../../cmd:Location/cmd:Address') %>% xml_text,
+               session_country = .x %>% xml_find_first('../../cmd:Location/cmd:Country') %>% xml_text,
+               session_location = paste0(session_address, ', ', session_country),
+               education = .x %>% xml_find_first('./cmd:Education') %>% xml_text,
+               name_full = .x %>% xml_find_first('./cmd:FullName') %>% xml_text)) %>% 
+    bind_rows() # After everything is collected into tibble/dataframe,
+                # we can just bind the rows together
+}
+```
+
+
+```{r}
+elan_corpus <- elan_files %>% map(read_custom_eaf) %>% bind_rows()
+meta <- dir('~/github/test-corpus/', pattern = 'cmdi$', full.names = TRUE) %>% 
+  map(read_cmdi) %>% 
+  bind_rows()
+
+test_corpus <- left_join(elan_corpus, meta) %>% left_join(read_csv('coordinates.csv'))
+```
+
+##
+
+- I can recommend trying View function in RStudio
+
+```{r, eval=FALSE}
+write_rds(test_corpus, 'test_corpus.rds')
+test_corpus <- read_rds('test_corpus.rds')
+source('parse_corpus.R')
+test_corpus <- monster_function_that_does_everything()
+test_corpus %>% View
+```
+
+##
+
+```{r}
+test_corpus %>% count(participant)
+test_corpus %>% count(session_location)
+test_corpus %>% count(year_birth)
+```
+
+## Next: **More advanced example** or **Trying this further**?

@@ -1,0 +1,260 @@
+---
+output: 
+  revealjs::revealjs_presentation:
+    theme: white
+    transition: none
+    css: custom.css
+    self_contained: no
+    center: true
+    md_extensions: +fenced_code_attributes
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.cap = "")
+
+library(tidyverse)
+library(xml2)
+```
+
+# Getting complicated
+
+## More advanced example
+
+- In this example we are going to use an emuR R package
+- Connects to the web services in BAS
+- Starting point:
+    - Forced alignation tools are good enough
+    - We can get from utterance level to phoneme level for free
+
+## {data-background-iframe="http://ips-lmu.github.io/EMU.html"}
+
+## The way it works
+
+- emuR takes specifically formatted files, builds a database out of those, sends something from there to Munchen, does something over there, we get the result back, that can be written into Praat TextGrid
+- When we have Praat TextGrids, we can apply PraatScript
+- (We can execute the PraatScript safely from Terminal or R)
+- You'll see!
+
+##
+
+```{r, echo=FALSE}
+
+read_custom_eaf <- function(path_to_file){
+  
+  ref <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "refT") %>%
+    dplyr::select(content, annot_id, participant, time_slot_1, time_slot_2) %>%
+    dplyr::rename(ref = content) %>%
+    dplyr::rename(ref_id = annot_id)
+  
+  orth <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "orthT") %>%
+    dplyr::select(content, annot_id, ref_id, participant) %>%
+    dplyr::rename(orth = content) %>%
+    dplyr::rename(orth_id = annot_id)
+  
+  token <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "wordT") %>%
+    dplyr::select(content, annot_id, ref_id, participant) %>%
+    dplyr::rename(token = content) %>%
+    dplyr::rename(token_id = annot_id) %>%
+    dplyr::rename(orth_id = ref_id)
+
+  lemma <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "lemmaT") %>%
+    dplyr::select(content, annot_id, ref_id, participant) %>%
+    dplyr::rename(lemma = content) %>%
+    dplyr::rename(lemma_id = annot_id) %>%
+    dplyr::rename(token_id = ref_id)
+  
+  pos <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "posT") %>%
+    dplyr::select(content, ref_id, participant) %>%
+    dplyr::rename(pos = content) %>%
+    dplyr::rename(lemma_id = ref_id)
+  
+  elan <- left_join(ref, orth) %>% 
+    left_join(token) %>% 
+    left_join(lemma) %>% 
+    left_join(pos) %>%
+    select(token, lemma, pos, time_slot_1, time_slot_2, everything(), -ends_with('_id'))
+    
+  time_slots <- FRelan::read_timeslots(path_to_file)
+  
+  elan %>% left_join(time_slots %>% rename(time_slot_1 = time_slot_id)) %>%
+    rename(time_start = time_value) %>%
+    left_join(time_slots %>% rename(time_slot_2 = time_slot_id)) %>%
+    rename(time_end = time_value) %>%
+    select(token, lemma, pos, participant, time_start, time_end, everything(), -starts_with('time_slot_')) %>%
+    mutate(session_name = str_extract(path_to_file, '[^/]+(?=.eaf)')) %>%
+    mutate(filename = path_to_file)
+
+  }
+
+```
+
+- It's often good idea to do all modification and variable creation in one spot…
+
+```{r}
+eafs <- dir(path = '~/github/test-corpus/', pattern = 'eaf$', full.names = TRUE)
+
+corpus <- eafs %>% map(read_custom_eaf) %>% bind_rows()
+
+corpus <- corpus %>% 
+  mutate(time_duration = time_end - time_start) %>%
+  mutate(audio_file = str_replace(filename, 'eaf$', 'wav')) %>%
+  mutate(orth_trimmed = str_replace_all(orth, c('[:punct:]' = '', 
+                                                '\\s+' = ' '))) %>%
+  filter(! participant == 'NTP-M-1986') %>% # just getting rid of myself
+  select(orth_trimmed, time_start, time_end, time_duration, everything())
+
+```
+
+##
+
+```{r}
+plot(density(corpus$time_duration))
+```
+
+##
+
+- One type of data emuR can handle is audio file + matching text file
+- It is also picky about the audio files
+
+```{r}
+library(exifr)
+corpus %>% distinct(audio_file) %>%
+        pull(audio_file) %>%
+        map(~ exifr::read_exif(.x)) %>% bind_rows() %>%
+        rename(audio_file = SourceFile) %>%
+  select(BitsPerSample, Duration, FileType, NumChannels, everything())
+```
+
+- Too many channels! The web service will crash if it sees this!
+
+##
+
+```{r, eval=FALSE}
+library(glue)
+
+corpus %>% 
+  distinct(audio_file) %>% 
+  pull(audio_file) %>% 
+  walk(~ {
+    seewave::sox(glue("{.x} -c 1 {str_replace(.x, 'wav$', '-mono.wav')}"))
+    })
+```
+
+
+##
+
+- Let's define a function that cuts ELAN files by reference
+- seewave package can access sox from R
+
+```{r}
+cut_elan_ref <- function(audio_file, reference_id, start, duration){
+  
+  if (dir.exists('~/github/test-corpus/reference_clips') == FALSE) {
+    dir.create('~/github/test-corpus/reference_clips')
+  }
+
+  seewave::sox(command = glue("{str_replace(audio_file, 'wav$', '-mono.wav')} ~/github/test-corpus/reference_clips/{reference_id}.wav trim {start / 1000} {duration / 1000}"))
+  
+}
+```
+
+##
+
+- walk is same as map, but it doesn't output anything, you use it for side-effects (like writing file)
+    - Aaaactually, it silently returns what it got
+
+```{r, eval=FALSE}
+corpus %>% distinct(audio_file, ref, time_start, time_duration, orth_trimmed) %>%
+  split(.$ref) %>%
+  walk(., ~ cut_elan_ref(.x$audio_file, .x$ref, .x$time_start, .x$time_duration)) %>%
+  walk(., ~ write_lines(.x$orth_trimmed[1], path = glue::glue('~/github/test-corpus/reference_clips/', .$ref[1], '.txt')))
+```
+
+## {data-background-image="https://i.imgur.com/XC7Xo3m.png" background-image-size="65%"}
+
+## 
+
+```{r, eval=FALSE}
+
+library(emuR)
+convert_txtCollection(dbName = 'test-corpus', 
+                            sourceDir = '~/github/test-corpus/reference_clips', 
+                            targetDir = '.', 
+                            txtExtension = '.txt', 
+                            mediaFileExtension = 'wav', 
+                            attributeDefinitionName = 'orth')
+
+dbHandle = load_emuDB('test-corpus_emuDB', verbose = F)
+```
+
+##
+
+```{r, eval=FALSE}
+runBASwebservice_g2pForTokenization(handle = dbHandle,
+  transcriptionAttributeDefinitionName = 'orth', language = 'rus-RU',
+  orthoAttributeDefinitionName = 'ORT', resume = FALSE,
+  verbose = TRUE)
+
+runBASwebservice_g2pForPronunciation(handle = dbHandle,
+                  orthoAttributeDefinitionName = 'ORT',
+                  language = 'und', 
+                  canoAttributeDefinitionName = 'KAN', 
+                  params = list(embed = 'maus', imap=RCurl::fileUpload("~/github/test-corpus/kpv-sampa.txt")), 
+                  resume = FALSE, 
+                  verbose = TRUE)
+
+runBASwebservice_maus(handle = dbHandle,
+                      canoAttributeDefinitionName = 'KAN',
+                      language = 'rus-RU',
+                      mausAttributeDefinitionName = 'MAUS',
+                      chunkLevel = NULL,
+                      turnChunkLevelIntoItemLevel = TRUE,
+                      perspective = 'default',
+                      resume = FALSE,
+                      verbose = TRUE)
+
+export_TextGridCollection(dbHandle, targetDir = '~/github/test-corpus/praat', attributeDefinitionNames = c('ORT', 'KAN', 'MAUS'))
+```
+
+## {data-background-image="https://i.imgur.com/C7HfnXx.png" background-image-size="65%"}
+
+## {data-background-image="https://i.imgur.com/Mh6ev8o.png" background-image-size="65%"}
+
+##
+
+### This is where one starts to think:
+
+### "should had I checked all transcriptions once more before I did this?"
+
+## {data-background-image="https://i.imgur.com/hxdO7Oy.png" background-image-size="60%"}
+
+# Integrating tools
+
+## Shiny
+
+- Earlier we had an example of a JavaScript based web content
+- Nice, but still limited
+- It is possible to build small applications also in R
+- Can be hosted for free online, but things get fast tricky
+- Anyway having something running and up on server is already bit more complex
+- Generally very good for prototyping
+    - Compact, lots of examples, logic easy to follow
+    - Again, probably it all could be done from scratch in JavaScript
+
+## PraatScript
+
+- A scripting language that allows using Praat functionalities
+- Works within Praat, and outside Praat
+- Somewhat popular: internet is full of examples
+- Not entirely easy or intuitive, but not that bad
+    - Follows a lot what happens in Praat GUI
+
+##
+
+```{r}
+
+```
+
