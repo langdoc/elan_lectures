@@ -1,3 +1,6 @@
+Advanced analysis and manipulation of ELAN corpus data with R and Python
+------------------------------------------------------------------------
+
 This is a set of course materials Niko Partanen
 ([me](https://github.com/nikopartanen)) is using while teaching the this
 course. It is supposed to be used with a [Komi-Zyrian Test
@@ -7,6 +10,10 @@ have an accompanying
 thorough but also still more at the draft level. I work currently in
 LATTICE laboratory in Paris, and I’m also working with
 [IKDP-2](https://github.com/langdoc/IKDP-2) research project.
+
+If you have comments or suggestions, any feedback, my email address is
+<nikotapiopartanen@gmail.com>. In principle I’m also in Twitter,
+@nikopartanen, but I don’t understand very well how to use it.
 
 The lectures assume that you have done something like:
 
@@ -36,10 +43,6 @@ The course is split along following slides:
     PraatScript](https://langdoc.github.io/elan_lectures/lecture-4)
 -   [Some file manipulation
     examples](https://langdoc.github.io/elan_lectures/lecture-5)
-
-If you have comments or suggestions, any feedback, my email address is
-<nikotapiopartanen@gmail.com>. In principle I’m also in Twitter,
-@nikopartanen, but I don’t understand very well how to use it.
 
 Preparatory work
 ----------------
