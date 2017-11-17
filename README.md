@@ -29,3 +29,11 @@ The course is split along following slides:
 - [How does ELAN work?](https://langdoc.github.io/elan_lectures/lecture-3)
 - [More advanced example with emuR, Shiny and PraatScript](https://langdoc.github.io/elan_lectures/lecture-4)
 - [Some file manipulation examples](https://langdoc.github.io/elan_lectures/lecture-5)
+
+## Attributions
+
+There are probably tons of small improvements that could be done with attributing everyone, but at least following should be probably listed separatedly:
+
+- Custom CSS and inspiration to use [revealjs](https://github.com/rstudio/revealjs) comes from [this presentation](https://github.com/evelinag/tabs-spaces-talk)
+- Praat scripts are based into examples of [Steven Buss's formant script](https://github.com/sbuss/get-formants-for-vowels) and [Will Styler's COG script](https://github.com/stylerw/styler_praat_scripts/blob/master/peak_spectral_COG.praat)
+- Different pieces of code are copied from countless blogs and posts around the internet -- if something deserves to be attributed, just let me know and I will happily add it
