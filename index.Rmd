@@ -2,7 +2,10 @@
 title: "Advanced ELAN course"
 author: "Niko Partanen"
 date: "11/16/2017"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
 editor_options: 
   chunk_output_type: console
 ---
@@ -75,7 +78,7 @@ library(meow)
 
 ```
 
-## Projects
+## Projects in RStudio
 
 In RStudio you can easily arrange your work around projects. Those can be accessed in right-upper corner of the program. If you work in a project, your working directory is always the one of the project, and you avoid lots of hassle.
 
@@ -221,10 +224,11 @@ corpus %>% mutate(filename = path_to_file)
 
 ## Pite case
 
+- Joshua Wilbur has a special case that gave errors, the general start for checking this is below, in principle it can be boiled down into an XPath
 - wordT type is incorrectly somewhere where one should have notesT
 
-```{r}
-elan_file = "sje20150329b.eaf"
+```{r, eval=FALSE}
+elan_file = "file.eaf"
 read_xml(elan_file) %>%
   xml_find_all("//TIER[@LINGUISTIC_TYPE_REF='wordT' and starts-with(@TIER_ID, 'notes')]") %>%
     map(~ glue::glue("Fix tier {xml_attr(.x, 'TIER_ID')} in file {elan_file}"))
