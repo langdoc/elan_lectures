@@ -30,6 +30,14 @@ The course is split along following slides:
 - [More advanced example with emuR, Shiny and PraatScript](https://langdoc.github.io/elan_lectures/lecture-4)
 - [Some file manipulation examples](https://langdoc.github.io/elan_lectures/lecture-5)
 
+## Financial support
+
+My work has been supported by several institutions and foundations while conducting work that has contributed into these materials:
+
+- Funding from [Kone Foundation](https://koneensaatio.fi/) in [IKDP](https://github.com/langdoc/IKDP) and [IKDP-2](https://github.com/langdoc/IKDP-2] research projecs
+- Position in 2017 in [LATTICE laboratory](http://www.lattice.cnrs.fr/)
+- Travel grant in 2016 from [Suomalais-ugrilaisen kulttuurirahaston säätiö](http://www.sukrs.fi/)
+
 ## Attributions
 
 There are probably tons of small improvements that could be done with attributing everyone, but at least following should be probably listed separatedly:
